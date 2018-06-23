@@ -19,16 +19,7 @@
         @endif
 
         <!-- search form (Optional) -->
-        @if(LAConfigs::getByKey('sidebar_search'))
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-	                <input type="text" name="q" class="form-control" placeholder="Search..."/>
-              <span class="input-group-btn">
-                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-              </span>
-            </div>
-        </form>
-        @endif
+
         <!-- /.search form -->
 
         <!-- Sidebar Menu -->
@@ -55,6 +46,75 @@
                     <?php echo LAHelper::print_menu($menu); ?>
                 @endif
             @endforeach
+            <li class="treeview">
+                <a href="http://localhost:8000/admin/#">
+                    <i class="fa fa-suitcase"></i> 
+                    <span>Mengelola Supplier</span> 
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu" style="display: none;">
+                    <li>
+                        <a href="{{route('admin-create-mengelola-supplier')}}">
+                            <i class="fa fa-plus"></i> 
+                            <span>Tambah Supplier</span> 
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('admin-edit-mengelola-supplier')}}">
+                            <i class="fa fa-edit"></i> 
+                            <span>Ubah Supplier</span> 
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://localhost:8000/admin/employees">
+                            <i class="fa fa-trash-o"></i>
+                            <span>Hapus Supplier</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('admin-index-mengelola-supplier')}}">
+                            <i class="fa fa-sort-amount-asc"></i>
+                            <span>Daftar Supplier</span> 
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- <li><a href="#"><i class='fa fa-cubes'></i> <span>Mengelola Barang</span></a></li> -->
+            <li class="treeview">
+                <a href="http://localhost:8000/admin/#">
+                    <i class="fa fa-cubes"></i> 
+                    <span>Mengelola Barang</span> 
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu" style="display: none;">
+                    <li>
+                        <a href="http://localhost:8000/admin/users">
+                            <i class="fa fa-plus"></i> 
+                            <span>Tambah Barang</span> 
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://localhost:8000/admin/departments">
+                            <i class="fa fa-edit"></i> 
+                            <span>Ubah Barang</span> 
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://localhost:8000/admin/employees">
+                            <i class="fa fa-trash-o"></i>
+                            <span>Hapus Barang</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://localhost:8000/admin/roles">
+                            <i class="fa fa-sort-amount-asc"></i>
+                            <span>Daftar Barang</span> 
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#"><i class='fa fa-tasks'></i> <span>Mengelola Penilaian Supplier</span></a></li>
+            <li><a href="#"><i class='fa fa-line-chart'></i> <span>Laporan Perangkingan</span></a></li>
             <!-- LAMenus -->
             
         </ul><!-- /.sidebar-menu -->

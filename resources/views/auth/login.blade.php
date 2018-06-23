@@ -5,10 +5,10 @@
 @endsection
 
 @section('content')
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="background-color: white">
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ url('/home') }}"><b>{{ LAConfigs::getByKey('sitename_part1') }} </b>{{ LAConfigs::getByKey('sitename_part2') }}</a>
+            <a href="#"><img src="https://image4.owler.com/logo/lpkia_owler_20160229_214110_large.png"></a>
         </div>
 
     @if (count($errors) > 0)
@@ -21,9 +21,9 @@
             </ul>
         </div>
     @endif
-
+    <p style="text-align: center;"><b>SELAMAT DATANG!</b></br>SILAKAN MASUKAN USERNAME DAN PASSWORD</p>
     <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    
     <form action="{{ url('/login') }}" method="post">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-group has-feedback">

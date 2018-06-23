@@ -155,7 +155,9 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-	Dwij\Laraadmin\LAProvider::class
+	    Dwij\Laraadmin\LAProvider::class,
+        Laracasts\Flash\FlashServiceProvider::class
+
     ],
 
     /*
@@ -201,6 +203,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Flash' => Laracasts\Flash\Flash::class
 
     ],
 
