@@ -21,7 +21,9 @@ require __DIR__.'/admin_routes.php';
 Route::group(['prefix' => 'admin/mengelola-supplier', 'namespace' => 'Admin'], function () {
 	Route::get('index', array('as' => 'admin-index-mengelola-supplier', 'uses' => 'MengelolaSupplierController@index'));
     Route::get('create', array('as' => 'admin-create-mengelola-supplier', 'uses' =>'MengelolaSupplierController@create'));
-    Route::get('edit', array('as' => 'admin-edit-mengelola-supplier', 'uses' =>'MengelolaSupplierController@edit'));
+    Route::get('{id}/edit', array('as' => 'admin-edit-mengelola-supplier', 'uses' =>'MengelolaSupplierController@edit'));
+    Route::get('{id}/ajax-get-data-supplier', array('as' => 'ajax-get-data-supplier', 'uses' =>'MengelolaSupplierController@ajaxGetData'));
+    Route::post('{id}/update', array('as' => 'admin-update-mengelola-supplier', 'uses' =>'MengelolaSupplierController@update'));
     Route::post('store', array('as' => 'admin-store-tambah-supplier', 'uses' => 'MengelolaSupplierController@store'));  
 });
 

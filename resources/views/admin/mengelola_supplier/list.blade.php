@@ -7,6 +7,9 @@
 @section("htmlheader_title", "Mengelola Supplier")
 
 @section("headerElems")
+@la_access("Employees", "create")
+    <a class="btn btn-success btn-sm pull-right" href="{{route('admin-create-mengelola-supplier')}}">Add Supplier</a>
+@endla_access
 
 @endsection
 
@@ -21,7 +24,7 @@
         </ul>
     </div>
 @endif
-<div class="box box-primary">
+<div class="box box-success">
     <div class="box-header">
         <div style="text-align: center;">
             <h3 class="box-title" style="font-weight: bold;">DAFTAR SUPPLIER</h3>
@@ -37,11 +40,14 @@
                     <th class="center-align">Nama Supplier</th>
                     <th class="center-align" width="15%">Phone</th>
                     <th class="center-align" width="15%">Email</th>
+                    <th class="center-align" width="15%">Action</th>
                 </tr>
             </thead>
         </table>
     </div>
 </div>
+
+
 
 @endsection
 
@@ -66,8 +72,8 @@ $(function () {
 	$("#employee-add-form").validate({
 		
 	});
-});
-
-					
+});					
 </script>
+
+@include('admin.mengelola_supplier.show')
 @endpush

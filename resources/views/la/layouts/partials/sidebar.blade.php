@@ -46,7 +46,8 @@
                     <?php echo LAHelper::print_menu($menu); ?>
                 @endif
             @endforeach
-            <li class="treeview">
+             <li><a href="{{route('admin-index-mengelola-supplier')}}"><i class='fa fa-tasks'></i> <span>Mengelola Supplier</span></a></li>
+<!--             <li class="treeview">
                 <a href="http://localhost:8000/admin/#">
                     <i class="fa fa-suitcase"></i> 
                     <span>Mengelola Supplier</span> 
@@ -59,12 +60,7 @@
                             <span>Tambah Supplier</span> 
                         </a>
                     </li>
-                    <li>
-                        <a href="{{route('admin-edit-mengelola-supplier')}}">
-                            <i class="fa fa-edit"></i> 
-                            <span>Ubah Supplier</span> 
-                        </a>
-                    </li>
+
                     <li>
                         <a href="http://localhost:8000/admin/employees">
                             <i class="fa fa-trash-o"></i>
@@ -78,7 +74,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
             <!-- <li><a href="#"><i class='fa fa-cubes'></i> <span>Mengelola Barang</span></a></li> -->
             <li class="treeview">
                 <a href="http://localhost:8000/admin/#">
