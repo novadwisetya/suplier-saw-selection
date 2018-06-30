@@ -1,14 +1,14 @@
 @extends("la.layouts.app")
 
-@section("contentheader_title", "Mengelola Supplier")
+@section("contentheader_title", "Mengelola Barang")
 @section("contentheader_description", "List")
-@section("section", "Mengelola Supplier")
+@section("section", "Mengelola Barang")
 @section("sub_section", "List")
-@section("htmlheader_title", "Mengelola Supplier")
+@section("htmlheader_title", "Mengelola Barang")
 
 @section("headerElems")
 @la_access("Employees", "create")
-    <a class="btn btn-success btn-sm pull-right" href="{{route('admin-create-mengelola-supplier')}}">Tambah Supplier</a>
+    <a class="btn btn-success btn-sm pull-right" href="{{route('admin-create-mengelola-barang')}}">Tambah Barang</a>
 @endla_access
 
 @endsection
@@ -27,7 +27,7 @@
 <div class="box box-success">
     <div class="box-header">
         <div style="text-align: center;">
-            <h3 class="box-title" style="font-weight: bold;">DAFTAR SUPPLIER</h3>
+            <h3 class="box-title" style="font-weight: bold;">DAFTAR BARANG</h3>
         </div>
     </div>
     <div class="box-body">
@@ -36,19 +36,16 @@
             <thead>
                 <tr>
                     <th width="4%" class="center-align">Id</th>
-                    <th class="center-align" width="20%">Kode Supplier</th>
-                    <th class="center-align" width="20%">Nama Supplier</th>
-                    <th class="center-align" width="21%">Phone</th>
-                    <th class="center-align" width="26%">Email</th>
+                    <th class="center-align" width="20%">Kode Barang</th>
+                    <th class="center-align" width="20%">Nama Barang</th>
+                    <th class="center-align" width="21%">Kategori</th>
+                    <th class="center-align" width="26%">Jenis</th>
                     <th class="center-align" width="9%">Action</th>
                 </tr>
             </thead>
         </table>
     </div>
 </div>
-
-
-
 @endsection
 
 @push('styles')
@@ -62,7 +59,7 @@ $(function () {
 	$("#table-container").DataTable({
 		processing: true,
         serverSide: true,
-        ajax: "{{ route('datatables-list-supplier') }}",
+        ajax: "{{ route('datatables-list-barang') }}",
 		language: {
 			lengthMenu: "_MENU_",
 			search: "_INPUT_",
@@ -75,5 +72,5 @@ $(function () {
 });					
 </script>
 
-@include('admin.mengelola_supplier.show')
+@include('admin.mengelola_barang.show')
 @endpush

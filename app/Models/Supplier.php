@@ -20,4 +20,9 @@ class Supplier extends Model
     {
         return static::select('kode_supplier', 'nama_supplier');
     }
+
+    public function getData()
+    {
+        return static::select('id', 'kode_supplier', 'nama_supplier')->get();
+    }
 }

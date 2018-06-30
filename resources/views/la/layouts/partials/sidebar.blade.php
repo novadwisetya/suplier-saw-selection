@@ -46,37 +46,9 @@
                     <?php echo LAHelper::print_menu($menu); ?>
                 @endif
             @endforeach
-             <li><a href="{{route('admin-index-mengelola-supplier')}}"><i class='fa fa-tasks'></i> <span>Mengelola Supplier</span></a></li>
-<!--             <li class="treeview">
-                <a href="http://localhost:8000/admin/#">
-                    <i class="fa fa-suitcase"></i> 
-                    <span>Mengelola Supplier</span> 
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu" style="display: none;">
-                    <li>
-                        <a href="{{route('admin-create-mengelola-supplier')}}">
-                            <i class="fa fa-plus"></i> 
-                            <span>Tambah Supplier</span> 
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="http://localhost:8000/admin/employees">
-                            <i class="fa fa-trash-o"></i>
-                            <span>Hapus Supplier</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{route('admin-index-mengelola-supplier')}}">
-                            <i class="fa fa-sort-amount-asc"></i>
-                            <span>Daftar Supplier</span> 
-                        </a>
-                    </li>
-                </ul>
-            </li> -->
-            <!-- <li><a href="#"><i class='fa fa-cubes'></i> <span>Mengelola Barang</span></a></li> -->
-            <li class="treeview">
+            <li><a href="{{route('admin-index-mengelola-supplier')}}"><i class='fa fa-tasks'></i> <span>Mengelola Supplier</span></a></li>
+            <li><a href="{{route('admin-index-mengelola-barang')}}"><i class='fa fa-cubes'></i> <span>Mengelola Barang</span></a></li>
+            <!-- <li class="treeview">
                 <a href="http://localhost:8000/admin/#">
                     <i class="fa fa-cubes"></i> 
                     <span>Mengelola Barang</span> 
@@ -108,7 +80,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
             <li><a href="#"><i class='fa fa-tasks'></i> <span>Mengelola Penilaian Supplier</span></a></li>
             <li><a href="#"><i class='fa fa-line-chart'></i> <span>Laporan Perangkingan</span></a></li>
             <!-- LAMenus -->

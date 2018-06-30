@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\Supplier;
 use Datatables;
 use DB;
@@ -15,21 +16,22 @@ use Dwij\Laraadmin\Models\ModuleFields;
 
 use Dwij\Laraadmin\Helpers\LAHelper;
 
-class MengelolaSupplierController extends Controller
+class MengelolaBarangController extends Controller
 {
     protected $model;
-    protected $views = 'mengelola_supplier';
-    protected $routes = 'mengelola_supplier';
+    protected $views = 'mengelola_barang';
+    protected $routes = 'mengelola_barang';
     protected $menu;
 
     public function __construct()
     {
-        $this->model = new Supplier;
+        $this->model = new Product;
+        $this->supplier = new Supplier;
     }
 
     public function index()
     {
-        return view('admin.'.$this->views.'.list');
+        return view('admin.'.$this->views.'.index');
     }
 
     /**
@@ -39,7 +41,14 @@ class MengelolaSupplierController extends Controller
      */
     public function create()
     {
-        return view('admin.'.$this->views.'.create');
+        $res = [];
+        $supplier = $this->supplier->getData();
+
+        foreach ($supplier as $key => $value) {
+            $res[$value->id] = $value->kode_supplier.' - ' .$value->nama_supplier;
+        }
+
+        return view('admin.'.$this->views.'.create', ['data_supplier' => $res]);
     }
 
     /**
@@ -50,28 +59,30 @@ class MengelolaSupplierController extends Controller
      */
     public function store(Request $request)
     {
+        
         $this->validate($request, [
-            'kode_supplier' => 'required',
-            'nama_supplier' => 'required',
-            'alamat' => 'required',
-            'phone' => 'required',
-            'email' => 'required|email'
+            'kode_barang' => 'required',
+            'nama_barang' => 'required',
+            'kategori_barang' => 'required',
+            'suppliers_id' => 'required',
+            'jenis_barang' => 'required'
         ]);
 
+
         $saveData = $this->model->create([
-            'kode_supplier' => $request->kode_supplier,
-            'nama_supplier' => $request->nama_supplier,
-            'alamat' => $request->alamat,
-            'phone' => $request->phone,
-            'email' => $request->email
+            'kode_barang' => $request->kode_barang,
+            'nama_barang' => $request->nama_barang,
+            'kategori_barang' => $request->kategori_barang,
+            'suppliers_id' => $request->suppliers_id,
+            'jenis_barang' => $request->jenis_barang
         ]);
         
         if(!empty($saveData)){
             flash()->success('Data berhasil disimpan!');
-            return redirect()->route('admin-index-mengelola-supplier');
+            return redirect()->route('admin-index-mengelola-barang');
         } else {
             flash()->error('Gagal menyimpan data.!');
-            return redirect()->route('admin-create-mengelola-supplier');
+            return redirect()->route('admin-create-mengelola-barang');
         } 
     }
 
@@ -95,7 +106,16 @@ class MengelolaSupplierController extends Controller
     public function edit($id)
     {
         $data = $this->model->find($id);
-        return view('admin.'.$this->views.'.edit', ['data' => $data]);
+        $supplier = $this->supplier->getData();
+
+        foreach ($supplier as $key => $value) {
+            $res[$value->id] = $value->kode_supplier.' - ' .$value->nama_supplier;
+        }
+
+        return view('admin.'.$this->views.'.edit', [
+            'data' => $data,
+            'supplier' => $res,
+        ]);
     }
 
     public function datatables_edit()
@@ -119,29 +139,31 @@ class MengelolaSupplierController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'nama_supplier' => 'required',
-            'alamat' => 'required',
-            'phone' => 'required',
-            'email' => 'required|email'
+            'kode_barang' => 'required',
+            'nama_barang' => 'required',
+            'kategori_barang' => 'required',
+            'suppliers_id' => 'required',
+            'jenis_barang' => 'required'
         ]);
 
         $data = $this->model->find($id);
 
         if(!empty($data)){
-            $data->update([
-                'nama_supplier' => $request->nama_supplier,
-                'alamat' => $request->alamat,
-                'phone' => $request->phone,
-                'email' => $request->email
+            $saveData = $data->update([
+                'kode_barang' => $request->kode_barang,
+                'nama_barang' => $request->nama_barang,
+                'kategori_barang' => $request->kategori_barang,
+                'suppliers_id' => $request->suppliers_id,
+                'jenis_barang' => $request->jenis_barang
             ]);
         }        
         
         if(!empty($saveData)){
             flash()->success('Data berhasil diperbaharui!');
-            return redirect()->route('admin-index-mengelola-supplier');
+            return redirect()->route('admin-index-mengelola-barang');
         } else {
             flash()->error('Gagal menyimpan data.!');
-            return redirect()->route('admin-create-mengelola-supplier');
+            return redirect()->route('admin-update-mengelola-supplier', $id);
         }
     }
 
@@ -157,10 +179,10 @@ class MengelolaSupplierController extends Controller
         
         if(!empty($data)){
             flash()->success('Data berhasil dihapus!');
-            return redirect()->route('admin-index-mengelola-supplier');
+            return redirect()->route('admin-index-mengelola-barang');
         } else {
             flash()->error('Gagal menghapus data.!');
-            return redirect()->route('admin-create-mengelola-supplier');
+            return redirect()->route('admin-create-mengelola-barang');
         }
     }
 
@@ -174,9 +196,9 @@ class MengelolaSupplierController extends Controller
                 $output = '';
                 $output .= '<a style="text-align:center;" data-id="'.$data->data[$i][0].'" data-button="show" class="btn btn-success btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-eye"></i></a>&nbsp';
 
-                $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-supplier/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>&nbsp';
+                $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-barang/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>&nbsp';
 
-                $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-supplier/'.$data->data[$i][0].'/destroy').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-times"></i></a>';
+                $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-barang/'.$data->data[$i][0].'/destroy').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-times"></i></a>';
                     
                 $data->data[$i][] = (string)$output;
         }
