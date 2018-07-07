@@ -38,10 +38,29 @@ Route::group(['prefix' => 'admin/mengelola-barang', 'namespace' => 'Admin'], fun
     Route::get('{id}/destroy', array('as' => 'admin-destroy-mengelola-barang', 'uses' =>'MengelolaBarangController@destroy'));
 });
 
+Route::group(['prefix' => 'admin/kriteria-penilaian', 'namespace' => 'Admin'], function () {
+    Route::get('index', array('as' => 'admin-index-kriteria-penilaian', 'uses' => 'KriteriaPenilaianController@index'));
+    Route::get('create', array('as' => 'admin-create-kriteria-penilaian', 'uses' =>'KriteriaPenilaianController@create'));
+    Route::get('{id}/ajax-get-data-barang', array('as' => 'ajax-get-data-kriteria-penilaian', 'uses' =>'KriteriaPenilaianController@ajaxGetData'));
+    Route::post('{id}/update', array('as' => 'admin-update-kriteria-penilaian', 'uses' =>'KriteriaPenilaianController@update'));
+    Route::post('store', array('as' => 'admin-store-tambah-kriteria', 'uses' => 'KriteriaPenilaianController@store'));  
+    Route::get('{id}/destroy', array('as' => 'admin-destroy-kriteria-penilaian', 'uses' =>'KriteriaPenilaianController@destroy'));
+    Route::get('{id}/ajax-get-data-kriteria', array('as' => 'ajax-get-data-kriteria', 'uses' =>'KriteriaPenilaianController@ajaxGetKriteria'));
+
+    //sub kriteria
+    Route::get('{id}/detail', array('as' => 'admin-detail-kriteria-penilaian', 'uses' =>'KriteriaPenilaianController@detail'));
+    Route::post('store-sub-kriteria', array('as' => 'admin-store-sub-kriteria', 'uses' => 'KriteriaPenilaianController@store_sub_kriteria')); 
+    Route::get('{id}/{parent_id}/destroy-sub-kriteria', array('as' => 'admin-destroy-kriteria-penilaian', 'uses' =>'KriteriaPenilaianController@destroy_sub_kriteria'));
+    Route::post('{id}/{parent_id}/update-sub-kriteria', array('as' => 'admin-update-sub-kriteria-penilaian', 'uses' =>'KriteriaPenilaianController@updateSubKriteria'));
+    Route::get('{id}/ajax-get-data-sub-kriteria', array('as' => 'ajax-get-data-sub-kriteria', 'uses' =>'KriteriaPenilaianController@ajaxGetSubKriteria'));
+});
+
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::group(['prefix' => 'datatables'], function () {
         Route::get('mengelola-supplier',array('as' => 'datatables-list-supplier', 'uses' => 'MengelolaSupplierController@datatables' ));
         Route::get('mengelola-barang',array('as' => 'datatables-list-barang', 'uses' => 'MengelolaBarangController@datatables' ));
+        Route::get('kriteria-penilaian',array('as' => 'datatables-list-kriteria-penilaian', 'uses' => 'KriteriaPenilaianController@datatables' ));
+        Route::get('{id}/sub-kriteria-penilaian',array('as' => 'datatables-list-sub-kriteria-penilaian', 'uses' => 'KriteriaPenilaianController@detailDatatables' ));
         Route::get('ubah-supplier',array('as' => 'datatables-edit-supplier', 'uses' => 'MengelolaSupplierController@datatables_edit' ));
     });
 });

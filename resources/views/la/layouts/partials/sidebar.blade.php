@@ -8,12 +8,12 @@
         @if (! Auth::guest())
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="{{ Gravatar::fallback(asset('la-assets/img/user2-160x160.jpg'))->get(Auth::user()->email) }}" class="img-circle" alt="User Image" />
+                    <img src="{{ url('/la-assets/img/user8-128x128.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
                     <p>{{ Auth::user()->name }}</p>
                     <!-- Status -->
-                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    <a href="#"><i class="fa fa-circle text-success"></i> {{Auth::user()->roles[0]->display_name}} </a>
                 </div>
             </div>
         @endif
@@ -46,9 +46,10 @@
                     <?php echo LAHelper::print_menu($menu); ?>
                 @endif
             @endforeach
+            <li><a href="{{route('admin-index-kriteria-penilaian')}}"><i class='fa fa-pencil-square-o'></i> <span>Kriteria Penilaian</span></a></li>
             <li><a href="{{route('admin-index-mengelola-supplier')}}"><i class='fa fa-tasks'></i> <span>Mengelola Supplier</span></a></li>
             <li><a href="{{route('admin-index-mengelola-barang')}}"><i class='fa fa-cubes'></i> <span>Mengelola Barang</span></a></li>
-            <!-- <li class="treeview">
+<!--             <li class="treeview">
                 <a href="http://localhost:8000/admin/#">
                     <i class="fa fa-cubes"></i> 
                     <span>Mengelola Barang</span> 

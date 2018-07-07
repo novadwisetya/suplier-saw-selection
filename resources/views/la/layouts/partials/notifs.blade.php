@@ -10,14 +10,14 @@
 						<!-- Menu Toggle Button -->
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							<!-- The user image in the navbar-->
-							<img src="{{ Gravatar::fallback(asset('la-assets/img/user2-160x160.jpg'))->get(Auth::user()->email) }}" class="user-image" alt="User Image"/>
+							<img src="{{ url('/la-assets/img/user8-128x128.jpg') }}" class="user-image" alt="User Image"/>
 							<!-- hidden-xs hides the username on small devices so only the image appears. -->
 							<span class="hidden-xs">{{ Auth::user()->name }}</span>
 						</a>
 						<ul class="dropdown-menu">
 							<!-- The user image in the menu -->
 							<li class="user-header">
-								<img src="{{ Gravatar::fallback(asset('la-assets/img/user2-160x160.jpg'))->get(Auth::user()->email) }}" class="img-circle" alt="User Image" />
+								<img src="{{ url('/la-assets/img/user8-128x128.jpg') }}" class="img-circle" alt="User Image" />
 								<p>
 									{{ Auth::user()->name }}
 									<?php
@@ -28,7 +28,7 @@
 							</li>
 							<!-- Menu Body -->
 							@role("SUPER_ADMIN")
-							<li class="user-body">
+<!-- 							<li class="user-body">
 								<div class="col-xs-6 text-center mb10">
 									<a href="{{ url(config('laraadmin.adminRoute') . '/lacodeeditor') }}"><i class="fa fa-code"></i> <span>Editor</span></a>
 								</div>
@@ -44,7 +44,7 @@
 								<div class="col-xs-6 text-center">
 									<a href="{{ url(config('laraadmin.adminRoute') . '/backups') }}"><i class="fa fa-hdd-o"></i> <span>Backups</span></a>
 								</div>
-							</li>
+							</li> -->
 							@endrole
 							<!-- Menu Footer-->
 							<li class="user-footer">

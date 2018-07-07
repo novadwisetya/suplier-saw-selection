@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<body class="hold-transition login-page" style="background-color: white">
+<body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
             <a href="#"><img src="https://image4.owler.com/logo/lpkia_owler_20160229_214110_large.png"></a>
@@ -21,9 +21,11 @@
             </ul>
         </div>
     @endif
-    <p style="text-align: center;"><b>SELAMAT DATANG!</b></br>SILAKAN MASUKAN USERNAME DAN PASSWORD</p>
     <div class="login-box-body">
-    
+    <p style="text-align: center;margin-bottom: 40px;margin-top: 20px;">
+        <b>SELAMAT DATANG!</b></br>
+        SILAKAN MASUKAN USERNAME DAN PASSWORD
+    </p>
     <form action="{{ url('/login') }}" method="post">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-group has-feedback">
@@ -38,7 +40,7 @@
             <div class="col-xs-8">
                 <div class="checkbox icheck">
                     <label>
-                        <input type="checkbox" name="remember"> Remember Me
+                        <!-- <input type="checkbox" name="remember"> Remember Me -->
                     </label>
                 </div>
             </div><!-- /.col -->
@@ -50,7 +52,7 @@
 
     @include('auth.partials.social_login')
 
-    <a href="{{ url('/password/reset') }}">I forgot my password</a><br>
+    <!-- <a href="{{ url('/password/reset') }}">I forgot my password</a><br> -->
     <!--<a href="{{ url('/register') }}" class="text-center">Register a new membership</a>-->
 
 </div><!-- /.login-box-body -->

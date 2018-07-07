@@ -37,7 +37,6 @@
                                 </span>
                             @endif
                         </div> 
-                        
                     </div>
                     <div class="form-group row {{($errors->has('nama_barang')? 'has-error' : '')}}">
                         <label class="col-sm-2 col-sm-offset-2 control-label">
