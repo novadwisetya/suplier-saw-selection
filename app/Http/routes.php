@@ -55,6 +55,10 @@ Route::group(['prefix' => 'admin/kriteria-penilaian', 'namespace' => 'Admin'], f
     Route::get('{id}/ajax-get-data-sub-kriteria', array('as' => 'ajax-get-data-sub-kriteria', 'uses' =>'KriteriaPenilaianController@ajaxGetSubKriteria'));
 });
 
+Route::group(['prefix' => 'admin/mengelola-penilaian-supplier', 'namespace' => 'Admin'], function () {
+    Route::get('index', array('as' => 'admin-index-mengelola-penilaian-supplier', 'uses' => 'MengelolaPenilaianSupplierController@index'));
+});
+
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::group(['prefix' => 'datatables'], function () {
         Route::get('mengelola-supplier',array('as' => 'datatables-list-supplier', 'uses' => 'MengelolaSupplierController@datatables' ));

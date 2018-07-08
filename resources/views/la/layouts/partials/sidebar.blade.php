@@ -82,7 +82,12 @@
                     </li>
                 </ul>
             </li> -->
-            <li><a href="#"><i class='fa fa-tasks'></i> <span>Mengelola Penilaian Supplier</span></a></li>
+            <li>
+                <a href="{{route('admin-index-mengelola-penilaian-supplier')}}">
+                    <i class='fa fa-tasks'></i> 
+                    <span>Mengelola Penilaian Supplier</span>
+                </a>
+            </li>
             <li><a href="#"><i class='fa fa-line-chart'></i> <span>Laporan Perangkingan</span></a></li>
             <!-- LAMenus -->
             

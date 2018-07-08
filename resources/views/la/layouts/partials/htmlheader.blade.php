@@ -30,6 +30,14 @@
         th{
             background-color: #dff0d8;
         }
+        .center-align{
+            text-align: center;
+        }
+        .bottom-border{
+            border-top: none;
+            border-right: none;
+            border-left: none;
+        }
     </style>
     
     @stack('styles')

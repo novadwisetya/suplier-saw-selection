@@ -81,7 +81,7 @@
                 <h4 class="modal-title" id="myModalLabel">Tambah Sub Kriteria</h4>
             </div>
 
-            {!! Form::open(['action' => 'Admin\KriteriaPenilaianController@store_sub_kriteria', 'id' => 'form-sub-kriteria']) !!}
+            {!! Form::open(['action' => 'Admin\KriteriaPenilaianController@store_sub_kriteria', 'id' => 'form-add-sub-kriteria']) !!}
 
             <div class="modal-body">
                 <div class="box-body">
