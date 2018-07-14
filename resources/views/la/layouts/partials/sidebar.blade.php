@@ -47,8 +47,8 @@
                 @endif
             @endforeach
             <li><a href="{{route('admin-index-kriteria-penilaian')}}"><i class='fa fa-pencil-square-o'></i> <span>Kriteria Penilaian</span></a></li>
-            <li><a href="{{route('admin-index-mengelola-supplier')}}"><i class='fa fa-tasks'></i> <span>Mengelola Supplier</span></a></li>
-            <li><a href="{{route('admin-index-mengelola-barang')}}"><i class='fa fa-cubes'></i> <span>Mengelola Barang</span></a></li>
+            <li><a href="{{route('admin-index-mengelola-supplier')}}"><i class='fa fa-tasks'></i> <span>Kelola Supplier</span></a></li>
+            <li><a href="{{route('admin-index-mengelola-barang')}}"><i class='fa fa-cubes'></i> <span>Kelola Barang</span></a></li>
 <!--             <li class="treeview">
                 <a href="http://localhost:8000/admin/#">
                     <i class="fa fa-cubes"></i> 
@@ -85,7 +85,7 @@
             <li>
                 <a href="{{route('admin-index-mengelola-penilaian-supplier')}}">
                     <i class='fa fa-tasks'></i> 
-                    <span>Mengelola Penilaian Supplier</span>
+                    <span>Kelola Penilaian Supplier</span>
                 </a>
             </li>
             <li><a href="{{route('admin-index-laporan-perangkingan')}}"><i class='fa fa-line-chart'></i> <span>Laporan Perangkingan</span></a></li>

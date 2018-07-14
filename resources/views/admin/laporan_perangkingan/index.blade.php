@@ -36,39 +36,39 @@
                     Bulan
                 </label>
                 <div class="col-sm-4">
-                    {!! Form::text('purchasing_order', old('purchasing_order'), ['id' => 'purchasing_order', 'class' => 'form-control', 'placeholder' => 'Bulan', 'required']) !!}
+                    {!! Form::text('bulan', old('bulan'), ['id' => 'bulan', 'class' => 'form-control', 'placeholder' => 'Bulan', 'required']) !!}
 
-                    @if ($errors->has('purchasing_order'))
+                    @if ($errors->has('bulan'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('purchasing_order') }}</strong>
+                            <strong>{{ $errors->first('bulan') }}</strong>
                         </span>
                     @endif
                 </div> 
             </div>
-            <div class="form-group row {{($errors->has('supplier_id')? 'has-error' : '')}}">
+            <div class="form-group row {{($errors->has('tahun')? 'has-error' : '')}}">
                 <label class="col-sm-2 control-label">
                     Tahun
                 </label>
                 <div class="col-sm-4">
-                     {!! Form::text('purchasing_order', old('purchasing_order'), ['id' => 'purchasing_order', 'class' => 'form-control', 'placeholder' => 'No. PO', 'required']) !!}
+                     {!! Form::text('tahun', old('tahun'), ['id' => 'tahun', 'class' => 'form-control', 'placeholder' => 'Tahun', 'required']) !!}
 
-                    @if ($errors->has('supplier_id'))
+                    @if ($errors->has('tahun'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('supplier_id') }}</strong>
+                            <strong>{{ $errors->first('tahun') }}</strong>
                         </span>
                     @endif
                 </div> 
             </div>
-            <div class="form-group row {{($errors->has('supplier_id')? 'has-error' : '')}}">
+            <div class="form-group row {{($errors->has('kategori_barang')? 'has-error' : '')}}">
                 <label class="col-sm-2 control-label">
                     Kategori Barang
                 </label>
                 <div class="col-sm-4">
-                    {!! Form::select('kategori_barang', $kategori_barang, null, ['id' => 'purchasing_order', 'class' => 'form-control', 'placeholder' => 'Pilih Kategori Barang', 'required']) !!}
+                    {!! Form::select('kategori_barang', $kategori_barang, null, ['id' => 'kategori_barang', 'class' => 'form-control', 'placeholder' => 'Pilih Kategori Barang', 'required']) !!}
 
-                    @if ($errors->has('supplier_id'))
+                    @if ($errors->has('kategori_barang'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('supplier_id') }}</strong>
+                            <strong>{{ $errors->first('kategori_barang') }}</strong>
                         </span>
                     @endif
                 </div> 

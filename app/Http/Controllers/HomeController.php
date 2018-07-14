@@ -22,7 +22,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        
+         $this->middleware('auth');
     }
 
     /**
@@ -33,9 +33,9 @@ class HomeController extends Controller
     public function index()
     {
         $roleCount = \App\Role::count();
-		if($roleCount != 0) {
+        if($roleCount != 0) {
 			if($roleCount != 0) {
-				return view('auth.login');
+				return view('la.dashboard');
 			}
 		} else {
 			return view('errors.error', [

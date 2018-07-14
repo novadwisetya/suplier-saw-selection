@@ -1,10 +1,10 @@
 @extends("la.layouts.app")
 
-@section("contentheader_title", "Mengelola Supplier")
+@section("contentheader_title", "Kelola Supplier")
 @section("contentheader_description", "Tambah")
-@section("section", "Mengelola Supplier")
+@section("section", "Kelola Supplier")
 @section("sub_section", "Tambah")
-@section("htmlheader_title", "Mengelola Supplier")
+@section("htmlheader_title", "Kelola Supplier")
 
 @section("headerElems")
 

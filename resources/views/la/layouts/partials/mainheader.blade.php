@@ -35,7 +35,7 @@
 		</a>
 
 		@include('la.layouts.partials.notifs')
-	<p style="font-size: 28px;"><b>PT REINOVA KARYA PRIMA</b></p>
+	<p style="font-size: 28px;text-align: center;"><b>PT REINOVA KARYA PRIMA</b></p>
 
 	@endif
 

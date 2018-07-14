@@ -1,10 +1,10 @@
 @extends("la.layouts.app")
 
-@section("contentheader_title", "Kriteria Penilaian")
+@section("contentheader_title", "Kelola Penilaian Supplier")
 @section("contentheader_description", "Detail")
-@section("section", "Kriteria Penilaian")
+@section("section", "Kelola Penilaian Supplier")
 @section("sub_section", "Detail")
-@section("htmlheader_title", "Kriteria Penilaian")
+@section("htmlheader_title", "Kelola Penilaian Supplier")
 
 @section("headerElems")
 @la_access("Employees", "create")
@@ -29,7 +29,7 @@
     <div class="box-header">
         @include('flash::message')
         <div style="text-align: center;">
-            <h3 class="box-title" style="font-weight: bold;">MENU MENGELOLA PENILAIAN SUPPLIER</h3>
+            <h3 class="box-title" style="font-weight: bold;">MENU KELOLA PENILAIAN SUPPLIER</h3>
         </div>
         <div style="margin-top: 30px;">
             <div class="form-group row">
