@@ -26,6 +26,9 @@ Route::group(['prefix' => 'admin/mengelola-supplier', 'namespace' => 'Admin'], f
     Route::post('{id}/update', array('as' => 'admin-update-mengelola-supplier', 'uses' =>'MengelolaSupplierController@update'));
     Route::post('store', array('as' => 'admin-store-tambah-supplier', 'uses' => 'MengelolaSupplierController@store'));  
     Route::get('{id}/destroy', array('as' => 'admin-destroy-mengelola-supplier', 'uses' =>'MengelolaSupplierController@destroy'));
+    Route::get('import', array('as' => 'admin-import-mengelola-supplier', 'uses' =>'MengelolaSupplierController@import'));
+    Route::post('import', array('as' => 'admin-import-tambah-supplier', 'uses' => 'MengelolaSupplierController@storeImport'));
+    Route::get('{id}/penilaian', array('as' => 'admin-penilaian-mengelola-supplier', 'uses' =>'MengelolaSupplierController@penilaian'));
 });
 
 Route::group(['prefix' => 'admin/mengelola-barang', 'namespace' => 'Admin'], function () {
@@ -36,6 +39,7 @@ Route::group(['prefix' => 'admin/mengelola-barang', 'namespace' => 'Admin'], fun
     Route::post('{id}/update', array('as' => 'admin-update-mengelola-barang', 'uses' =>'MengelolaBarangController@update'));
     Route::post('store', array('as' => 'admin-store-tambah-barang', 'uses' => 'MengelolaBarangController@store'));  
     Route::get('{id}/destroy', array('as' => 'admin-destroy-mengelola-barang', 'uses' =>'MengelolaBarangController@destroy'));
+    Route::get('import', array('as' => 'admin-import-mengelola-barang', 'uses' =>'MengelolaSupplierController@import'));
 });
 
 Route::group(['prefix' => 'admin/kriteria-penilaian', 'namespace' => 'Admin'], function () {
@@ -57,11 +61,23 @@ Route::group(['prefix' => 'admin/kriteria-penilaian', 'namespace' => 'Admin'], f
 
 Route::group(['prefix' => 'admin/mengelola-penilaian-supplier', 'namespace' => 'Admin'], function () {
     Route::get('index', array('as' => 'admin-index-mengelola-penilaian-supplier', 'uses' => 'MengelolaPenilaianSupplierController@index'));
+    Route::get('{supplier_id}/ajax-get-data-barang', array('as' => 'ajax-get-data-barang', 'uses' => 'MengelolaPenilaianSupplierController@ajaxGetDataBarang'));
+    Route::post('store', array('as' => 'admin-store-penilaian-supplier', 'uses' => 'MengelolaPenilaianSupplierController@store'));  
+});
+
+Route::group(['prefix' => 'admin/laporan-perangkingan', 'namespace' => 'Admin'], function () {
+    Route::get('index', array('as' => 'admin-index-laporan-perangkingan', 'uses' => 'LaporanPerangkinganController@index'));
+    Route::get('penilaian', array('as' => 'admin-index-laporan-penilaian', 'uses' => 'LaporanPerangkinganController@penilaian'));
+    // Route::get('{supplier_id}/ajax-get-data-barang', array('as' => 'ajax-get-data-barang-laporan', 'uses' => 'MengelolaPenilaianSupplierController@ajaxGetDataBarang'));
+    // Route::post('store', array('as' => 'admin-store-penilaian-supplier', 'uses' => 'MengelolaPenilaianSupplierController@store'));  
 });
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::group(['prefix' => 'datatables'], function () {
         Route::get('mengelola-supplier',array('as' => 'datatables-list-supplier', 'uses' => 'MengelolaSupplierController@datatables' ));
+        Route::get('{id}/datatables-matrix-keputusan',array('as' => 'datatables-matrix-keputusan', 'uses' => 'MengelolaSupplierController@dtMatrixKeputusan' ));
+        Route::get('{id}/datatables-matrix-keputusan-x',array('as' => 'datatables-matrix-keputusan-x', 'uses' => 'MengelolaSupplierController@dtMatrixKeputusanX' ));
+        Route::get('{id}/datatables-matrix-normalisasi-r',array('as' => 'datatables-matrix-normalisasi-r', 'uses' => 'MengelolaSupplierController@dtMatrixNormalisasiR' ));
         Route::get('mengelola-barang',array('as' => 'datatables-list-barang', 'uses' => 'MengelolaBarangController@datatables' ));
         Route::get('kriteria-penilaian',array('as' => 'datatables-list-kriteria-penilaian', 'uses' => 'KriteriaPenilaianController@datatables' ));
         Route::get('{id}/sub-kriteria-penilaian',array('as' => 'datatables-list-sub-kriteria-penilaian', 'uses' => 'KriteriaPenilaianController@detailDatatables' ));

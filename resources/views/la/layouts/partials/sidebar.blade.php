@@ -88,7 +88,7 @@
                     <span>Mengelola Penilaian Supplier</span>
                 </a>
             </li>
-            <li><a href="#"><i class='fa fa-line-chart'></i> <span>Laporan Perangkingan</span></a></li>
+            <li><a href="{{route('admin-index-laporan-perangkingan')}}"><i class='fa fa-line-chart'></i> <span>Laporan Perangkingan</span></a></li>
             <!-- LAMenus -->
             
         </ul><!-- /.sidebar-menu -->

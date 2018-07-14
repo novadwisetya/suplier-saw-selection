@@ -7,12 +7,15 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Supplier;
+use App\Models\Product;
+use App\Models\SubKriteria;
+use App\Models\PenilaianSupplier;
 use Datatables;
 use DB;
 use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
-
+use Excel;
 use Dwij\Laraadmin\Helpers\LAHelper;
 
 class MengelolaSupplierController extends Controller
@@ -25,6 +28,9 @@ class MengelolaSupplierController extends Controller
     public function __construct()
     {
         $this->model = new Supplier;
+        $this->sub_kriteria = new SubKriteria;
+        $this->products = new Product;
+        $this->penilaian_supplier = new PenilaianSupplier;
     }
 
     public function index()
@@ -97,6 +103,16 @@ class MengelolaSupplierController extends Controller
         $data = $this->model->find($id);
         return view('admin.'.$this->views.'.edit', ['data' => $data]);
     }
+
+    public function penilaian($id)
+    {
+        $data = $this->model->find($id);
+        return view('admin.laporan_perangkingan.penilaian', [
+          'data' => $data,
+          'id' => $id
+        ]);
+    }
+
 
     public function datatables_edit()
     {
@@ -176,10 +192,187 @@ class MengelolaSupplierController extends Controller
 
                 $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-supplier/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>&nbsp';
 
-                $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-supplier/'.$data->data[$i][0].'/destroy').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-times"></i></a>';
+                $output .= '<a data-url="'.url(config('laraadmin.adminRoute') . '/mengelola-supplier/'.$data->data[$i][0].'/destroy').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-times"></i></a>&nbsp';
+
+                $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-supplier/'.$data->data[$i][0].'/penilaian').'" class="btn btn-primary btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>&nbsp';
+
                     
                 $data->data[$i][] = (string)$output;
         }
+        $out->setData($data);
+        return $out;
+    }
+
+    public function dtMatrixKeputusan($id)
+    {
+        $values = $this->penilaian_supplier->datatables($id);
+        $out = Datatables::of($values)
+              ->editColumn('products_id', function($values) {
+                  $products = $this->products->find($values->products_id);
+                  $kode_barang = $products->kode_barang;
+                  $nama_barang = $products->nama_barang;
+                  return $kode_barang.' '.$nama_barang;
+              })
+              ->editColumn('harga', function($values) {
+                  $sub_kriteria = $this->sub_kriteria->find($values->harga);
+                  $nilai = $sub_kriteria->sub_kriteria;
+                  return $nilai;
+              })
+              ->editColumn('mutu', function($values) {
+                  $sub_kriteria = $this->sub_kriteria->find($values->mutu);
+                  $nilai = $sub_kriteria->sub_kriteria;
+                  return $nilai;
+              })
+              ->editColumn('layanan', function($values) {
+                  $sub_kriteria = $this->sub_kriteria->find($values->layanan);
+                  $nilai = $sub_kriteria->sub_kriteria;
+                  return $nilai;
+              })
+              ->editColumn('pembayaran', function($values) {
+                  $sub_kriteria = $this->sub_kriteria->find($values->pembayaran);
+                  $nilai = $sub_kriteria->sub_kriteria;
+                  return $nilai;
+              })
+              ->editColumn('waktu', function($values) {
+                  $sub_kriteria = $this->sub_kriteria->find($values->waktu);
+                  $nilai = $sub_kriteria->sub_kriteria;
+                  return $nilai;
+              })
+              ->make();
+
+        $data = $out->getData();
+        $out->setData($data);
+        return $out;
+    }
+
+    public function dtMatrixKeputusanX($id)
+    {
+        $values = $this->penilaian_supplier->datatables($id);
+        $out = Datatables::of($values)
+              ->editColumn('products_id', function($values) {
+                  $products = $this->products->find($values->products_id);
+                  $kode_barang = $products->kode_barang;
+                  $nama_barang = $products->nama_barang;
+                  return $kode_barang.' '.$nama_barang;
+              })
+              ->editColumn('harga', function($values) {
+                  $sub_kriteria = $this->sub_kriteria->find($values->harga);
+                  $nilai = $sub_kriteria->nilai;
+                  return $nilai;
+              })
+              ->editColumn('mutu', function($values) {
+                  $sub_kriteria = $this->sub_kriteria->find($values->mutu);
+                  $nilai = $sub_kriteria->nilai;
+                  return $nilai;
+              })
+              ->editColumn('layanan', function($values) {
+                  $sub_kriteria = $this->sub_kriteria->find($values->layanan);
+                  $nilai = $sub_kriteria->nilai;
+                  return $nilai;
+              })
+              ->editColumn('pembayaran', function($values) {
+                  $sub_kriteria = $this->sub_kriteria->find($values->pembayaran);
+                  $nilai = $sub_kriteria->nilai;
+                  return $nilai;
+              })
+              ->editColumn('waktu', function($values) {
+                  $sub_kriteria = $this->sub_kriteria->find($values->waktu);
+                  $nilai = $sub_kriteria->nilai;
+                  return $nilai;
+              })
+              ->make();
+
+        $data = $out->getData();
+        $out->setData($data);
+        return $out;
+    }
+
+    public function dtMatrixNormalisasiR($id)
+    {
+        $values = $this->penilaian_supplier->datatables($id);
+        $out = Datatables::of($values)
+              ->editColumn('products_id', function($values) {
+                  $products = $this->products->find($values->products_id);
+                  $kode_barang = $products->kode_barang;
+                  $nama_barang = $products->nama_barang;
+                  return $kode_barang.' '.$nama_barang;
+              })
+              ->editColumn('harga', function($values) {
+                  $sub_kriteria = $this->sub_kriteria->find($values->harga);
+                  $nilai = $sub_kriteria->nilai;
+                  $dataNilai = [];
+
+                  $alternative = $this->sub_kriteria->where('kriterias_id', 1)->get();
+
+                  foreach ($alternative as $key => $value) {
+                      $dataNilai[] = $value->nilai; 
+                  }
+
+                  $return = $nilai * min($dataNilai);
+
+                  return $return;
+              })
+              ->editColumn('mutu', function($values) {
+                  $sub_kriteria = $this->sub_kriteria->find($values->mutu);
+                  $nilai = $sub_kriteria->nilai;
+                  $dataNilai = [];
+
+                  $alternative = $this->sub_kriteria->where('kriterias_id', 2)->get();
+
+                  foreach ($alternative as $key => $value) {
+                      $dataNilai[] = $value->nilai; 
+                  }
+
+                  $return = $nilai * max($dataNilai);
+                  return $return;
+              })
+              ->editColumn('layanan', function($values) {
+                  $sub_kriteria = $this->sub_kriteria->find($values->layanan);
+                  $nilai = $sub_kriteria->nilai;
+
+                  $dataNilai = [];
+
+                  $alternative = $this->sub_kriteria->where('kriterias_id', 3)->get();
+
+                  foreach ($alternative as $key => $value) {
+                      $dataNilai[] = $value->nilai; 
+                  }
+
+                  $return = $nilai * max($dataNilai);
+                  return $return;
+              })
+              ->editColumn('pembayaran', function($values) {
+                  $sub_kriteria = $this->sub_kriteria->find($values->pembayaran);
+                  $nilai = $sub_kriteria->nilai;
+
+                  $dataNilai = [];
+
+                  $alternative = $this->sub_kriteria->where('kriterias_id', 4)->get();
+
+                  foreach ($alternative as $key => $value) {
+                      $dataNilai[] = $value->nilai; 
+                  }
+
+                  $return = $nilai * max($dataNilai);
+                  return $return;
+
+              })
+              ->editColumn('waktu', function($values) {
+                  $sub_kriteria = $this->sub_kriteria->find($values->waktu);
+                  $nilai = $sub_kriteria->nilai;
+                  $dataNilai = [];
+
+                  $alternative = $this->sub_kriteria->where('kriterias_id', 4)->get();
+
+                  foreach ($alternative as $key => $value) {
+                      $dataNilai[] = $value->nilai; 
+                  }
+
+                  $return = $nilai * max($dataNilai);
+                  return $return;
+              })
+              ->make();
+        $data = $out->getData();
         $out->setData($data);
         return $out;
     }
@@ -198,5 +391,87 @@ class MengelolaSupplierController extends Controller
               'status' => 'failed'
           ]);
         }
+    }
+
+    public function import()
+    {
+        return view('admin.'.$this->views.'.import');
+    }
+
+    public function storeImport(Request $request)
+    {
+      // if(isset($request->import)){
+      //     $path = $request->import->getRealPath();
+
+      //     $data = Excel::load($path, function($reader) {})->get();
+      //     if(!empty($data) && $data->count()){
+      //       foreach ($data as $key => $value) {
+      //           $insert[] = [
+      //               'kode_supplier' => $value->kode_supplier,
+      //               'nama_supplier' => $value->nama_supplier,
+      //               'alamat' => $value->alamat,
+      //               'phone' => $value->phone,
+      //               'email' => $value->email
+
+      //           ];
+      //       }
+      //       if(!empty($insert)){
+      //         DB::table('suppliers')->insert($insert);
+      //         dd('Insert Record successfully.');
+      //       }
+      //     }
+      // }
+
+      // if(isset($request->import)){
+      //     $path = $request->import->getRealPath();
+
+      //     $data = Excel::load($path, function($reader) {})->get();
+      //     if(!empty($data) && $data->count()){
+      //       foreach ($data as $key => $value) {
+      //           $insert[] = [
+      //               'kode_barang' => $value->kode_barang,
+      //               'nama_barang' => $value->nama_barang,
+      //               'kategori_barang' => $value->kategori_barang,
+      //               'jenis_barang' => $value->jenis_barang,
+      //               'suppliers_id' => $value->suppliers_id
+      //           ];
+      //       }
+      //       if(!empty($insert)){
+      //         DB::table('products')->insert($insert);
+      //         dd('Insert Record successfully.');
+      //       }
+      //     }
+      // }
+      if(isset($request->import)){
+          $path = $request->import->getRealPath();
+
+          $data = Excel::load($path, function($reader) {})->get();
+          if(!empty($data) && $data->count()){
+            foreach ($data as $key => $value) {
+                $insert[] = [
+                    'po_number' => $value->po_number,
+                    'suppliers_id' => $value->suppliers_id,
+                    'tanggal' => $value->tanggal,
+                    'products_id' => $value->products_id,
+                    'drum' => $value->drum,
+                    'kg' => $value->kg,
+                    'satuan' => $value->satuan,
+                    'jumlah' => $value->jumlah,
+                    'harga' => $value->harga,
+                    'mutu' => $value->mutu,
+                    'layanan' => $value->layanan,
+                    'pembayaran' => $value->pembayaran,
+                    'waktu' => $value->waktu
+                ];
+            }
+            if(!empty($insert)){
+              DB::table('penilaian_supplier')->insert($insert);
+              dd('Insert Record successfully.');
+            }
+          }
+      }
+
+      return back();
+
     }
 }

@@ -213,7 +213,6 @@ class KriteriaPenilaianController extends Controller
 
         for($i=0; $i < count($data->data); $i++) {            
           $output = '';
-          $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/kriteria-penilaian/'.$data->data[$i][0].'/detail').'" class="btn btn-success btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-eye"></i></a>&nbsp';
           $output .= '<a class="btn btn-warning btn-xs btn-edit" data-parent-id="'.$id.'" data-id="'.$data->data[$i][0].'" data-toggle="modal" data-target="#EditModal" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>&nbsp';
 
           $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/kriteria-penilaian/'.$data->data[$i][0].'/'.$id.'/destroy-sub-kriteria').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-times"></i></a>';

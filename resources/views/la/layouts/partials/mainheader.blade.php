@@ -14,7 +14,10 @@
 
 	<!-- Header Navbar -->
 	<nav class="navbar navbar-static-top" role="navigation">
+
+
 	@if(LAConfigs::getByKey('layout') == 'layout-top-nav')
+
 		<div class="container">
 			<div class="navbar-header">
 				<a href="{{ url(config('laraadmin.adminRoute')) }}" class="navbar-brand"><b>{{ LAConfigs::getByKey('sitename_part1') }}</b>{{ LAConfigs::getByKey('sitename_part2') }}</a>
@@ -30,8 +33,12 @@
 		<a href="#" class="sidebar-toggle b-l" data-toggle="offcanvas" role="button">
 			<span class="sr-only">Toggle navigation</span>
 		</a>
+
 		@include('la.layouts.partials.notifs')
+	<p style="font-size: 28px;"><b>PT REINOVA KARYA PRIMA</b></p>
+
 	@endif
+
 	
 	</nav>
 </header>

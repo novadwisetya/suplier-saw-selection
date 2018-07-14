@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Supplier;
+use App\Models\Kriteria;
+use App\Models\SubKriteria;
 use Datatables;
 use DB;
 use Collective\Html\FormFacade as Form;
@@ -16,22 +18,40 @@ use Dwij\Laraadmin\Models\ModuleFields;
 
 use Dwij\Laraadmin\Helpers\LAHelper;
 
-class MengelolaBarangController extends Controller
+class LaporanPerangkinganController extends Controller
 {
     protected $model;
-    protected $views = 'mengelola_barang';
-    protected $routes = 'mengelola_barang';
+    protected $views = 'laporan_perangkingan';
+    protected $routes = 'laporan_perangkingan';
     protected $menu;
 
     public function __construct()
     {
         $this->model = new Product;
         $this->supplier = new Supplier;
+        $this->kriteria= new Kriteria;
+        $this->sub_kriteria= new SubKriteria;
     }
 
     public function index()
     {
-        return view('admin.'.$this->views.'.index');
+        $data = $this->model->groupBy('kategori_barang')->get();
+        $output = [];
+        foreach ($data as $key => $value) {
+            $output[$value->kategori_barang] = $value->kategori_barang;
+        }
+
+        $supplier = $this->supplier->all();
+        
+        return view('admin.'.$this->views.'.index', [
+            'kategori_barang' => $output,
+            'supplier' => $supplier
+        ]);
+    }
+
+    public function penilaian()
+    {   
+        return view('admin.'.$this->views.'.penilaian');
     }
 
     /**
@@ -59,16 +79,7 @@ class MengelolaBarangController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $this->validate($request, [
-            'kode_barang' => 'required',
-            'nama_barang' => 'required',
-            'kategori_barang' => 'required',
-            'suppliers_id' => 'required',
-            'jenis_barang' => 'required'
-        ]);
-
-
+        dd($request);
         $saveData = $this->model->create([
             'kode_barang' => $request->kode_barang,
             'nama_barang' => $request->nama_barang,
@@ -206,25 +217,20 @@ class MengelolaBarangController extends Controller
         return $out;
     }
 
-    public function ajaxGetData($id)
+    public function ajaxGetDataBarang($supplier_id)
     {
-        $data = $this->model->find($id);
+        $data = $this->model->where('suppliers_id', $supplier_id)->get()->toArray();
+        $res = [];
         
-        if($data){
-          return response()->json([
-              'status' => 'success',
-              'data' => $data
-          ]);
-        }else{
-          return response()->json([
-              'status' => 'failed'
-          ]);
+        if(!empty($data)){
+          foreach ($data as $key => $value) {
+              $res[$value['id']] = $value['kode_barang'].' - '.$value['nama_barang'];
+          }
         }
-    }
 
-    public function import()
-    {
-        dd('test');
+        return response()->json([
+            'status' => 'success',
+            'data' => $res
+        ]);
     }
-
 }

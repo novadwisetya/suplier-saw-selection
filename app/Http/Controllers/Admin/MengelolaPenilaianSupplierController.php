@@ -8,6 +8,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Supplier;
+use App\Models\Kriteria;
+use App\Models\SubKriteria;
+use App\Models\PenilaianSupplier;
 use Datatables;
 use DB;
 use Collective\Html\FormFacade as Form;
@@ -26,19 +29,71 @@ class MengelolaPenilaianSupplierController extends Controller
     public function __construct()
     {
         $this->model = new Product;
+        $this->penilaian_supplier = new PenilaianSupplier;  
         $this->supplier = new Supplier;
+        $this->kriteria= new Kriteria;
+        $this->sub_kriteria= new SubKriteria;
     }
 
     public function index()
     {
         $res = [];
+        $mutu = [];
+        $layanan = [];
+        $pembayaran = [];
+        $waktu = [];
+
         $supplier = $this->supplier->getData();
 
         foreach ($supplier as $key => $value) {
             $res[$value->id] = $value->kode_supplier.' - ' .$value->nama_supplier;
         }
 
-        return view('admin.'.$this->views.'.index', ['data_supplier' => $res]);
+        $kriteria = $this->kriteria->get();
+        foreach ($kriteria as $value) {
+            switch ($value->kriteria) {
+              case 'Mutu':
+                $query_mutu = $this->sub_kriteria->where('kriterias_id', $value->id)->get();
+
+                foreach ($query_mutu as $key1 => $value1) {
+                    $mutu[$value1->id] = $value1->sub_kriteria;
+                }
+
+                break;
+              case 'Layanan':
+                $query_layanan = $this->sub_kriteria->where('kriterias_id', $value->id)->get();
+
+                foreach ($query_layanan as $key1 => $value1) {
+                    $layanan[$value1->id] = $value1->sub_kriteria;
+                }
+
+                break;
+              case 'Pembayaran':
+                $query_pembayaran = $this->sub_kriteria->where('kriterias_id', $value->id)->get();
+
+                foreach ($query_pembayaran as $key1 => $value1) {
+                    $pembayaran[$value1->id] = $value1->sub_kriteria;
+                }
+
+                break;
+              case 'Waktu':
+                $query_waktu = $this->sub_kriteria->where('kriterias_id', $value->id)->get();
+
+                foreach ($query_waktu as $key1 => $value1) {
+                    $waktu[$value1->id] = $value1->sub_kriteria;
+                }
+
+                break;
+            }
+        }
+
+        return view('admin.'.$this->views.'.index', [
+            'data_supplier' => $res,
+            'mutu' => $mutu,
+            'layanan' => $layanan,
+            'pembayaran' => $pembayaran,
+            'waktu' => $waktu
+        ]);
     }
 
     /**
@@ -66,31 +121,44 @@ class MengelolaPenilaianSupplierController extends Controller
      */
     public function store(Request $request)
     {
-        
         $this->validate($request, [
-            'kode_barang' => 'required',
-            'nama_barang' => 'required',
-            'kategori_barang' => 'required',
+            'po_number' => 'required',
             'suppliers_id' => 'required',
-            'jenis_barang' => 'required'
+            'tanggal' => 'required',
         ]);
 
+        foreach ($request->penilaian as $key => $value) {
+            $hargaSatuan = (int)$value['satuan'];
 
-        $saveData = $this->model->create([
-            'kode_barang' => $request->kode_barang,
-            'nama_barang' => $request->nama_barang,
-            'kategori_barang' => $request->kategori_barang,
-            'suppliers_id' => $request->suppliers_id,
-            'jenis_barang' => $request->jenis_barang
-        ]);
+
+            if($hargaSatuan <= 31000){
+                $harga = 1;
+            }elseif($hargaSatuan >= 31000 && $hargaSatuan <= 35000){
+                $harga = 2;
+            }else{
+                $harga = 3;
+            }
+
+
+            $this->penilaian_supplier->create([
+                'po_number' => $request->po_number,
+                'suppliers_id' => $request->suppliers_id,
+                'tanggal' => $request->tanggal,
+                'products_id' => (int)$value['products_id'],
+                'drum' => (int)$value['drum'],
+                'kg' => (int)$value['kg'],
+                'satuan' => (int)$value['satuan'],
+                'jumlah' => (int)$value['jumlah'],
+                'harga' => $harga,
+                'mutu' => (int)$value['mutu'],
+                'layanan' => (int)$value['layanan'],
+                'pembayaran' => (int)$value['pembayaran'],
+                'waktu' => (int)$value['waktu']
+            ]);
+        }
         
-        if(!empty($saveData)){
-            flash()->success('Data berhasil disimpan!');
-            return redirect()->route('admin-index-mengelola-barang');
-        } else {
-            flash()->error('Gagal menyimpan data.!');
-            return redirect()->route('admin-create-mengelola-barang');
-        } 
+        flash()->success('Data berhasil disimpan!');
+        return redirect()->route('admin-index-mengelola-penilaian-supplier');
     }
 
     /**
@@ -213,19 +281,20 @@ class MengelolaPenilaianSupplierController extends Controller
         return $out;
     }
 
-    public function ajaxGetData($id)
+    public function ajaxGetDataBarang($supplier_id)
     {
-        $data = $this->model->find($id);
+        $data = $this->model->where('suppliers_id', $supplier_id)->get()->toArray();
+        $res = [];
         
-        if($data){
-          return response()->json([
-              'status' => 'success',
-              'data' => $data
-          ]);
-        }else{
-          return response()->json([
-              'status' => 'failed'
-          ]);
+        if(!empty($data)){
+          foreach ($data as $key => $value) {
+              $res[$value['id']] = $value['kode_barang'].' - '.$value['nama_barang'];
+          }
         }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $res
+        ]);
     }
 }

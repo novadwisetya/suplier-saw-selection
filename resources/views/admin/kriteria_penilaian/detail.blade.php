@@ -211,6 +211,25 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="DeleteModal" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Konfirmasi</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box-body">
+                    Apakah anda yakin ingin menghapus data?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                {!! Form::submit('Delete', ['class'=>'btn btn-success']) !!}
+            </div>
+        </div>
+    </div>
+</div>
 @endla_access
 @endsection
 
@@ -254,6 +273,11 @@ $(function () {
             $('#kriteria_nilai').val(data.data.kriteria_nilai);
         });
     });
+
+    $(document).on('click', '.btn-danger', function(e){
+        e.preventDefault();
+        $('#DeleteModal').modal('show');
+    })
 });                 
 </script>
 @endpush

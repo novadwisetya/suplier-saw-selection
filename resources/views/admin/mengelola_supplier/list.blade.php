@@ -29,6 +29,11 @@
         <div style="text-align: center;">
             <h3 class="box-title" style="font-weight: bold;">DAFTAR SUPPLIER</h3>
         </div>
+        <div class="pull-right">
+            <a style="text-align:center;" data-id="6" data-button="show" class="btn btn-warning btn-sm">
+                <i class="fa fa-print">Print</i>
+            </a>
+        </div>
     </div>
     <div class="box-body">
     	@include('flash::message')
@@ -39,14 +44,34 @@
                     <th class="center-align" width="20%">Kode Supplier</th>
                     <th class="center-align" width="20%">Nama Supplier</th>
                     <th class="center-align" width="21%">Phone</th>
-                    <th class="center-align" width="26%">Email</th>
-                    <th class="center-align" width="9%">Action</th>
+                    <th class="center-align" width="22%">Email</th>
+                    <th class="center-align" width="14%">Action</th>
                 </tr>
             </thead>
         </table>
     </div>
 </div>
-
+@la_access("Employees", "create")
+<div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Konfirmasi</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box-body">
+                    Apakah anda yakin ingin menghapus data?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <a id="buttonDelete" href="#" class="btn btn-success">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+@endla_access
 
 
 @endsection
@@ -72,6 +97,13 @@ $(function () {
 	$("#employee-add-form").validate({
 		
 	});
+
+    $(document).on('click', '.btn-danger', function(e){
+        e.preventDefault();
+        var url = $(this).data('url');
+        $('#buttonDelete').attr('href', url)
+        $('#AddModal').modal('show');
+    })
 });					
 </script>
 

@@ -8,12 +8,12 @@ class KriteriaTableSeeder extends Seeder
 	protected $kriteria=[
 	    0 => [
 	      'kriteria' => 'Harga',
-	      'bobot' => 12.3,
+	      'bobot' => 0.281,
 	      'keterangan' => 'cost',
 	      'child' => [
 	      		0 => [
 	      			'sub_kriteria' => '<= 31000',
-	      			'nilai' => 0.5,
+	      			'nilai' => 1,
 	      			'kriteria_nilai' => 'Sangat Diutamakan'
 	      		],
 	      		1 => [
@@ -22,15 +22,15 @@ class KriteriaTableSeeder extends Seeder
 	      			'kriteria_nilai' => 'Diutamakan'
 	      		],
 	      		2 => [
-	      			'sub_kriteria' => '>= 35000',
-	      			'nilai' => 1,
+	      			'sub_kriteria' => '>= 35100',
+	      			'nilai' => 0.5,
 	      			'kriteria_nilai' => 'Tidak Diutamakan'
 	      		]
 	      ]
 	    ],
 	    1 => [
 	      'kriteria' => 'Mutu',
-	      'bobot' => 12.3,
+	      'bobot' => 0.234,
 	      'keterangan' => 'benefit',
 	      'child' => [
 	      		0 => [
@@ -52,7 +52,7 @@ class KriteriaTableSeeder extends Seeder
 	    ],
 	    2 => [
 	      'kriteria' => 'Layanan',
-	      'bobot' => 12.3,
+	      'bobot' => 0.193,
 	      'keterangan' => 'benefit',
 	      'child' => [
 	      		0 => [
@@ -74,7 +74,7 @@ class KriteriaTableSeeder extends Seeder
 	    ],
 	    3 => [
 	      'kriteria' => 'Pembayaran',
-	      'bobot' => 12.3,
+	      'bobot' => 0.159,
 	      'keterangan' => 'benefit',
 	      'child' => [
 	      		0 => [
@@ -91,7 +91,7 @@ class KriteriaTableSeeder extends Seeder
 	    ],
 	   	4 => [
 	      'kriteria' => 'Waktu',
-	      'bobot' => 12.3,
+	      'bobot' => 0.133,
 	      'keterangan' => 'benefit',
 	      'child' => [
 	      		0 => [
@@ -100,7 +100,7 @@ class KriteriaTableSeeder extends Seeder
 	      			'kriteria_nilai' => 'Sangat Diutamakan'
 	      		],
 	      		1 => [
-	      			'sub_kriteria' => 'Tidak',
+	      			'sub_kriteria' => 'Tidak Tepat',
 	      			'nilai' => 0.5,
 	      			'kriteria_nilai' => 'Tidak Diutamakan'
 	      		]
