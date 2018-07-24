@@ -14,6 +14,8 @@ use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
+use PDF;
+
 use Dwij\Laraadmin\Helpers\LAHelper;
 
 class MengelolaBarangController extends Controller
@@ -198,7 +200,7 @@ class MengelolaBarangController extends Controller
 
                 $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-barang/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>&nbsp';
 
-                $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-barang/'.$data->data[$i][0].'/destroy').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-times"></i></a>';
+                $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-barang/'.$data->data[$i][0].'/destroy').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-trash"></i></a>';
                     
                 $data->data[$i][] = (string)$output;
         }
@@ -225,6 +227,22 @@ class MengelolaBarangController extends Controller
     public function import()
     {
         dd('test');
+    }
+
+    public function print()
+    {
+        $items = $this->model->all()->toArray();
+        foreach ($items as $key => $value) {
+            $supplier = $this->supplier->find($value['suppliers_id']);
+            if(!empty($supplier)){
+                $items[$key]['nama_supplier'] = $supplier->nama_supplier;
+            }
+        }
+
+        view()->share('products',$items);
+
+        $pdf = PDF::loadView('admin.'.$this->views.'.pdfview');
+        return $pdf->download('list_barang.pdf');
     }
 
 }

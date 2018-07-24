@@ -25,4 +25,9 @@ class Supplier extends Model
     {
         return static::select('id', 'kode_supplier', 'nama_supplier')->get();
     }
+
+    public function laporan_perangkingan()
+    {
+        return static::select('id', 'kode_supplier', 'nama_supplier');
+    }
 }

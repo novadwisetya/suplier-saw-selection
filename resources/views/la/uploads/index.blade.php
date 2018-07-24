@@ -7,9 +7,7 @@
 @section("htmlheader_title", "Uploaded images & files")
 
 @section("headerElems")
-@la_access("Uploads", "create")
 	<button id="AddNewUploads" class="btn btn-success btn-sm pull-right">Add New</button>
-@endla_access
 @endsection
 
 @section("main-content")

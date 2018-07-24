@@ -14,7 +14,7 @@ class PenilaianSupplier extends Model
     
     public function datatables($id)
     {
-        return static::select('products_id', 'harga', 'mutu', 'layanan', 'pembayaran', 'waktu')->where('suppliers_id', $id);
+        return static::select('products_id', 'tanggal', 'harga', 'mutu', 'layanan', 'pembayaran', 'waktu')->where('suppliers_id', $id);
     }
 
     public function dtedit()

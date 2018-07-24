@@ -7,8 +7,7 @@
 		<!-- mini logo for sidebar mini 50x50 pixels -->
 		<span class="logo-mini"><b>{{ LAConfigs::getByKey('sitename_short') }}</b></span>
 		<!-- logo for regular state and mobile devices -->
-		<span class="logo-lg"><b>SAW</b>
-		 </span>
+
 	</a>
 	@endif
 
@@ -35,7 +34,7 @@
 		</a>
 
 		@include('la.layouts.partials.notifs')
-	<p style="font-size: 28px;text-align: center;"><b>PT REINOVA KARYA PRIMA</b></p>
+	<p style="font-size: 28px;text-align: center;color: steelblue;"><b>PT REINOVA KARYA PRIMA</b></p>
 
 	@endif
 

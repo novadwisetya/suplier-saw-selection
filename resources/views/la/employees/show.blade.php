@@ -45,15 +45,11 @@
 			
 		</div>
 		<div class="col-md-1 actions">
-			@la_access("Employees", "edit")
 				<a href="{{ url(config('laraadmin.adminRoute') . '/employees/'.$employee->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
-			@endla_access
 			
-			@la_access("Employees", "delete")
 				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.employees.destroy', $employee->id], 'method' => 'delete', 'style'=>'display:inline']) }}
 					<button class="btn btn-default btn-delete btn-xs" type="submit"><i class="fa fa-times"></i></button>
 				{{ Form::close() }}
-			@endla_access
 		</div>
 	</div>
 

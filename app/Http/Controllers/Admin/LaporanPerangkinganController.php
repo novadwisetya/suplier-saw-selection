@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\Kriteria;
+use App\Models\PenilaianSupplier;
 use App\Models\SubKriteria;
 use Datatables;
 use DB;
@@ -17,6 +18,7 @@ use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
 use Dwij\Laraadmin\Helpers\LAHelper;
+use PDF;
 
 class LaporanPerangkinganController extends Controller
 {
@@ -31,6 +33,7 @@ class LaporanPerangkinganController extends Controller
         $this->supplier = new Supplier;
         $this->kriteria= new Kriteria;
         $this->sub_kriteria= new SubKriteria;
+        $this->penilaian_supplier = new PenilaianSupplier;
     }
 
     public function index()
@@ -79,7 +82,6 @@ class LaporanPerangkinganController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
         $saveData = $this->model->create([
             'kode_barang' => $request->kode_barang,
             'nama_barang' => $request->nama_barang,
@@ -187,7 +189,6 @@ class LaporanPerangkinganController extends Controller
     public function destroy($id)
     {
         $data = $this->model->find($id)->delete();
-        
         if(!empty($data)){
             flash()->success('Data berhasil dihapus!');
             return redirect()->route('admin-index-mengelola-barang');
@@ -197,23 +198,332 @@ class LaporanPerangkinganController extends Controller
         }
     }
 
-    public function datatables()
-    {
-        $values = $this->model->datatables();
-        $out = Datatables::of($values)->make();
-        $data = $out->getData();
+    public function search(Request $request){
+        $barang = $this->model->where('kategori_barang', $request->kategori_barang)->get()->toArray();
+        $kategori_barang_id = [];
+        $output =[];
 
-        for($i=0; $i < count($data->data); $i++) {            
-                $output = '';
-                $output .= '<a style="text-align:center;" data-id="'.$data->data[$i][0].'" data-button="show" class="btn btn-success btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-eye"></i></a>&nbsp';
-
-                $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-barang/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>&nbsp';
-
-                $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-barang/'.$data->data[$i][0].'/destroy').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-times"></i></a>';
-                    
-                $data->data[$i][] = (string)$output;
+        foreach ($barang as $key => $value) {
+            $kategori_barang_id[] = $value['id'];
         }
+
+        $penilaianGlobal = [];
+        $penilaianSupplier = [];
+        foreach ($kategori_barang_id as $key => $value) {
+            $penilaian = $this->penilaian_supplier->where('products_id', $value);
+
+            if($request->bulan != '' && $request->tahun != ''){
+                $penilaian = $penilaian->whereDate('tanggal', '>=', date($request->tahun.'-'.$request->bulan.'-1'));
+                $penilaian = $penilaian->whereDate('tanggal', '<=', date($request->tahun.'-'.$request->bulan.'-28'));
+            }elseif($request->tahun != ''){
+                $penilaian = $penilaian->whereDate('tanggal', '>=', date($request->tahun.'-1-1'));
+                $penilaian = $penilaian->whereDate('tanggal', '<=', date($request->tahun.'-12-21'));
+            }
+
+            if(!empty($penilaian->get()->toArray())){
+                $penilaianGlobal[] = $penilaian->get()->toArray()[0];
+            }
+            
+        }
+
+        foreach ($penilaianGlobal as $key => $value) {
+            $penilaianSupplier[$value['suppliers_id']][] = $value;
+        }
+
+        foreach ($penilaianSupplier as $key => $value) {
+            $hargaGlobal = [];
+            $harga = 0;
+            $mutu = 0;
+            $mutuGlobal = [];
+            $layanan = 0;
+            $layananGlobal = [];
+            $pembayaran = 0;
+            $pembayaranGlobal = [];
+            $waktu = 0;
+            $waktuGlobal = [];
+
+            foreach ($value as $key1 => $value1) {
+                //harga
+                $sub_kriteria = $this->sub_kriteria->find($value1['harga']);
+                $nilai = $sub_kriteria->nilai;
+                $dataNilai = [];
+                $alternative = $this->sub_kriteria->where('kriterias_id', 1)->get();
+
+                foreach ($alternative as $key2 => $value2) {
+                    $dataNilai[] = $value2->nilai; 
+                }
+
+                $hargaGlobal[] = min($dataNilai) / $nilai;
+
+                //mutu
+                $sub_kriteria = $this->sub_kriteria->find($value1['mutu']);
+                $nilai = $sub_kriteria->nilai;
+                $dataNilai = [];
+
+                $alternative = $this->sub_kriteria->where('kriterias_id', 2)->get();
+
+                foreach ($alternative as $key2 => $value2) {
+                    $dataNilai[] = $value2->nilai; 
+                }
+                $mutuGlobal[] = $nilai / max($dataNilai);
+
+                //layanan
+                $sub_kriteria = $this->sub_kriteria->find($value1['layanan']);
+                $nilai = $sub_kriteria->nilai;
+                $dataNilai = [];
+
+                $alternative = $this->sub_kriteria->where('kriterias_id', 3)->get();
+                foreach ($alternative as $key2 => $value2) {
+                    $dataNilai[] = $value2->nilai; 
+                }
+                $layananGlobal[] = $nilai/max($dataNilai);
+                //pembayaran
+                $sub_kriteria = $this->sub_kriteria->find($value1['pembayaran']);
+                $nilai = $sub_kriteria->nilai;
+                $dataNilai = [];
+                $alternative = $this->sub_kriteria->where('kriterias_id', 4)->get();
+
+                foreach ($alternative as $key2 => $value2) {
+                    $dataNilai[] = $value2->nilai; 
+                }
+                $pembayaranGlobal[] = $nilai / max($dataNilai);
+                //waktu
+                $sub_kriteria = $this->sub_kriteria->find($value1['waktu']);
+                $nilai = $sub_kriteria->nilai;
+                $dataNilai = [];
+                $alternative = $this->sub_kriteria->where('kriterias_id', 5)->get();
+                foreach ($alternative as $key2 => $value2) {
+                    $dataNilai[] = $value2->nilai; 
+                }
+
+                $waktuGlobal[] = $nilai / max($dataNilai);
+            }
+
+            //total harga
+            foreach ($hargaGlobal as $key8 => $value8) {
+                $harga = $harga+$value8;
+            }
+            $harga = $harga/count($hargaGlobal);
+            $kriteria = $this->kriteria->find(1);
+            $harga = $harga * $kriteria->bobot;
+
+            //total Mutu
+            foreach ($mutuGlobal as $key8 => $value8) {
+                $mutu = $mutu+$value8;
+            }
+            $mutu = $mutu/count($mutuGlobal);
+            $kriteria = $this->kriteria->find(2);
+            $mutu = $mutu * $kriteria->bobot;
+
+            //total layanan
+            foreach ($layananGlobal as $key8 => $value8) {
+                $layanan = $layanan+$value8;
+            }
+
+            $layanan = $layanan/count($layananGlobal);
+            $kriteria = $this->kriteria->find(4);
+            $layanan = $layanan * $kriteria->bobot;
+
+            //total pembayaran
+            foreach ($pembayaranGlobal as $key8 => $value8) {
+                $pembayaran = $pembayaran+$value8;
+            }
+
+            $pembayaran = $pembayaran/count($pembayaranGlobal);
+            $kriteria = $this->kriteria->find(4);
+            $pembayaran = $pembayaran * $kriteria->bobot;
+
+            foreach ($waktuGlobal as $ke8 => $value8) {
+                $waktu = $waktu+$value8;
+            }
+
+            $waktu = $waktu/count($waktuGlobal);
+            $kriteria = $this->kriteria->find(5);
+            $waktu = $waktu * $kriteria->bobot;
+                
+            $point = $harga+$mutu+$layanan+$pembayaran+$waktu;
+            $supplier = $this->supplier->find($key)->toArray();
+
+            
+            $output[$key]['kode_supplier'] = $supplier['kode_supplier'];
+            $output[$key]['nama_supplier'] = $supplier['nama_supplier'];
+            $output[$key]['point'] = number_format($point, 3);
+        }
+
+        $peringkat = [];
+        foreach ($output as $k => $v) {
+            $peringkat[] = $v['point']; 
+        }
+
+        arsort($peringkat);
+
+        $return = [];
+        foreach ($peringkat as $key => $value) {
+            foreach ($output as $key1 => $value1) {
+                if($value1['point'] == $value){
+                    $return[] = $value1;
+                } 
+            }
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $return
+        ]);
+    }
+
+    public function laporan_perangkingan()
+    {
+        $data = $this->penilaian_supplier->all();
+
+        $values = $this->supplier->laporan_perangkingan();
+        $out = Datatables::of($values)
+            ->editColumn('point', function($values) {
+                $penilaian = $this->penilaian_supplier->where('suppliers_id', $values->id)->get();
+
+                //harga
+                $harga = 0;
+                $hargaGlobal = [];
+                foreach ($penilaian as $key => $value) {
+                    $sub_kriteria = $this->sub_kriteria->find($value->harga);
+                    $nilai = $sub_kriteria->nilai;
+                    $dataNilai = [];
+
+                    $alternative = $this->sub_kriteria->where('kriterias_id', 1)->get();
+
+                    foreach ($alternative as $key1 => $value1) {
+                        $dataNilai[] = $value1->nilai; 
+                    }
+
+                    $hargaGlobal[] = min($dataNilai) / $nilai;
+                }
+
+                foreach ($hargaGlobal as $key => $value) {
+                    $harga = $harga+$value;
+                }
+
+                $harga = $harga/count($hargaGlobal);
+
+                $kriteria = $this->kriteria->find(1);
+                $harga = $harga * $kriteria->bobot;
+
+                //mutu
+                $mutu = 0;
+                $mutuGlobal = [];
+
+                foreach ($penilaian as $key => $value) {
+                    $sub_kriteria = $this->sub_kriteria->find($value->mutu);
+                    $nilai = $sub_kriteria->nilai;
+                    $dataNilai = [];
+
+                    $alternative = $this->sub_kriteria->where('kriterias_id', 2)->get();
+
+                    foreach ($alternative as $key1 => $value1) {
+                        $dataNilai[] = $value1->nilai; 
+                    }
+
+                    $mutuGlobal[] = $nilai / max($dataNilai);
+                }
+                
+                foreach ($mutuGlobal as $key => $value) {
+                    $mutu = $mutu+$value;
+                }
+                $mutu = $mutu/count($mutuGlobal);
+                $kriteria = $this->kriteria->find(2);
+                $mutu = $mutu * $kriteria->bobot;
+                
+                //layanan
+                $layanan = 0;
+                $layananGlobal = [];
+
+                foreach ($penilaian as $key => $value) {
+                    $sub_kriteria = $this->sub_kriteria->find($value->layanan);
+                    $nilai = $sub_kriteria->nilai;
+
+                    $dataNilai = [];
+
+                    $alternative = $this->sub_kriteria->where('kriterias_id', 3)->get();
+
+                    foreach ($alternative as $key1 => $value1) {
+                        $dataNilai[] = $value1->nilai; 
+                    }
+
+                    $layananGlobal[] = $nilai / max($dataNilai);
+                }
+                
+                foreach ($layananGlobal as $key => $value) {
+                    $layanan = $layanan+$value;
+                }
+
+                $layanan = $layanan/count($layananGlobal);
+                $kriteria = $this->kriteria->find(4);
+                $layanan = $layanan * $kriteria->bobot;
+
+                //pembayaran
+                $pembayaran = 0;
+                $pembayaranGlobal = [];
+
+                foreach ($penilaian as $key => $value) {
+                    $sub_kriteria = $this->sub_kriteria->find($value->pembayaran);
+                    $nilai = $sub_kriteria->nilai;
+
+                    $dataNilai = [];
+
+                    $alternative = $this->sub_kriteria->where('kriterias_id', 4)->get();
+
+                    foreach ($alternative as $key1 => $value1) {
+                        $dataNilai[] = $value1->nilai; 
+                    }
+
+                    $pembayaranGlobal[] = $nilai / max($dataNilai);
+                }
+                
+                foreach ($pembayaranGlobal as $key => $value) {
+                    $pembayaran = $pembayaran+$value;
+                }
+
+                $pembayaran = $pembayaran/count($pembayaranGlobal);
+                $kriteria = $this->kriteria->find(4);
+                $pembayaran = $pembayaran * $kriteria->bobot;
+
+                //waktu
+                $waktu = 0;
+                $waktuGlobal = [];
+                foreach ($penilaian as $key => $value) {
+                    $sub_kriteria = $this->sub_kriteria->find($value->waktu);
+                    $nilai = $sub_kriteria->nilai;
+                    $dataNilai = [];
+
+                    $alternative = $this->sub_kriteria->where('kriterias_id', 5)->get();
+
+                    foreach ($alternative as $key => $value) {
+                        $dataNilai[] = $value->nilai; 
+                    }
+
+                    $waktuGlobal[] = $nilai / max($dataNilai);
+                }
+                
+                foreach ($waktuGlobal as $key => $value) {
+                    $waktu = $waktu+$value;
+                }
+
+                $waktu = $waktu/count($waktuGlobal);
+                $kriteria = $this->kriteria->find(5);
+                $waktu = $waktu * $kriteria->bobot;
+                
+                $return = $harga+$mutu+$layanan+$pembayaran+$waktu;
+                return $return;
+            })
+            ->editColumn('peringkat', function($values) {
+                  $penilaian = $this->penilaian_supplier->where('suppliers_id', $values->id);
+
+                  return '';
+            })
+            ->make();
+
+        $data = $out->getData();
         $out->setData($data);
+
         return $out;
     }
 
@@ -232,5 +542,12 @@ class LaporanPerangkinganController extends Controller
             'status' => 'success',
             'data' => $res
         ]);
+    }
+
+    public function print()
+    {   
+        
+        $pdf = PDF::loadView('admin.'.$this->views.'.pdfview');
+        return $pdf->download('list_barang.pdf');
     }
 }

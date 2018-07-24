@@ -1,15 +1,13 @@
 @extends("la.layouts.app")
 
-@section("contentheader_title", "Kelola Barang")
+@section("contentheader_title", "Kelola Data Barang")
 @section("contentheader_description", "List")
-@section("section", "Kelola Barang")
+@section("section", "Kelola Data Barang")
 @section("sub_section", "List")
-@section("htmlheader_title", "Kelola Barang")
+@section("htmlheader_title", "Kelola Data Barang")
 
 @section("headerElems")
-@la_access("Employees", "create")
-    <a class="btn btn-success btn-sm pull-right" href="{{route('admin-create-mengelola-barang')}}">Tambah Barang</a>
-@endla_access
+<a class="btn btn-success btn-sm pull-right" href="{{route('admin-create-mengelola-barang')}}">Tambah Barang</a>
 
 @endsection
 
@@ -30,8 +28,8 @@
             <h3 class="box-title" style="font-weight: bold;">DAFTAR BARANG</h3>
         </div>
         <div class="pull-right">
-            <a style="text-align:center;" data-id="6" data-button="show" class="btn btn-warning btn-sm">
-                <i class="fa fa-print">Print</i>
+            <a href="{{route('product-print-pdf')}}" style="text-align:center;" data-id="6" data-button="show" class="btn btn-warning btn-sm">
+                <i class="fa fa-print">&nbsp;Cetak Data Barang</i>
             </a>
         </div>
     </div>
@@ -50,15 +48,16 @@
             </thead>
         </table>
     </div>
+        <div class="box-footer">
+        <a href="{{ url(config('laraadmin.adminRoute')) }}" class="btn btn-warning">Menu Utama</a>
+    </div>
 </div>
 
-@la_access("Employees", "create")
 <div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Konfirmasi</h4>
+                <h4 class="modal-title" id="myModalLabel">Konfirmasi Pesan Hapus</h4>
             </div>
             <div class="modal-body">
                 <div class="box-body">
@@ -66,13 +65,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                {!! Form::submit('Delete', ['class'=>'btn btn-success']) !!}
+                <button type="button" class="btn btn-default" data-dismiss="modal">Tidak setuju</button>
+                {!! Form::submit('Setuju', ['class'=>'btn btn-success']) !!}
             </div>
         </div>
     </div>
 </div>
-@endla_access
 @endsection
 
 @push('styles')

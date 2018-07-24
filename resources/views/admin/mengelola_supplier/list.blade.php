@@ -1,15 +1,13 @@
 @extends("la.layouts.app")
 
-@section("contentheader_title", "Kelola Supplier")
+@section("contentheader_title", "Kelola Data Supplier")
 @section("contentheader_description", "List")
-@section("section", "Kelola Supplier")
+@section("section", "Kelola Data Supplier")
 @section("sub_section", "List")
-@section("htmlheader_title", "Kelola Supplier")
+@section("htmlheader_title", "Kelola Data Supplier")
 
 @section("headerElems")
-@la_access("Employees", "create")
     <a class="btn btn-success btn-sm pull-right" href="{{route('admin-create-mengelola-supplier')}}">Tambah Supplier</a>
-@endla_access
 
 @endsection
 
@@ -30,8 +28,8 @@
             <h3 class="box-title" style="font-weight: bold;">DAFTAR SUPPLIER</h3>
         </div>
         <div class="pull-right">
-            <a style="text-align:center;" data-id="6" data-button="show" class="btn btn-warning btn-sm">
-                <i class="fa fa-print">Print</i>
+            <a href="{{route('supplier-print-pdf')}}" stylesupplier-print-pdftext-align:center;" data-id="6" data-button="show" class="btn btn-warning btn-sm">
+                <i class="fa fa-print">&nbsp;Cetak data supplier</i>
             </a>
         </div>
     </div>
@@ -43,21 +41,23 @@
                     <th width="4%" class="center-align">Id</th>
                     <th class="center-align" width="20%">Kode Supplier</th>
                     <th class="center-align" width="20%">Nama Supplier</th>
-                    <th class="center-align" width="21%">Phone</th>
+                    <th class="center-align" width="21%">No. Telepon</th>
                     <th class="center-align" width="22%">Email</th>
-                    <th class="center-align" width="14%">Action</th>
+                    <th class="center-align" width="14%">Aksi</th>
                 </tr>
             </thead>
         </table>
     </div>
+        <div class="box-footer">
+        <a href="{{ url(config('laraadmin.adminRoute')) }}" class="btn btn-warning">Menu Utama</a>
+    </div>
 </div>
-@la_access("Employees", "create")
+
 <div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Konfirmasi</h4>
+                <h4 class="modal-title" id="myModalLabel">Konfirmasi Pesan Hapus</h4>
             </div>
             <div class="modal-body">
                 <div class="box-body">
@@ -65,13 +65,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <a id="buttonDelete" href="#" class="btn btn-success">Delete</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Tidak Setuju</button>
+                <a id="buttonDelete" href="#" class="btn btn-success">Setuju</a>
             </div>
         </div>
     </div>
 </div>
-@endla_access
+
 
 
 @endsection

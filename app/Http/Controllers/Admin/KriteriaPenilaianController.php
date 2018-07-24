@@ -197,7 +197,7 @@ class KriteriaPenilaianController extends Controller
 
           // $output .= '<a class="btn btn-warning btn-xs btn-edit" data-id="'.$data->data[$i][0].'" data-toggle="modal" data-target="#EditModal" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>&nbsp';
 
-          // $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/kriteria-penilaian/'.$data->data[$i][0].'/destroy').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-times"></i></a>';
+          // $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/kriteria-penilaian/'.$data->data[$i][0].'/destroy').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-trash"></i></a>';
                     
                 $data->data[$i][] = (string)$output;
         }
@@ -215,10 +215,29 @@ class KriteriaPenilaianController extends Controller
           $output = '';
           $output .= '<a class="btn btn-warning btn-xs btn-edit" data-parent-id="'.$id.'" data-id="'.$data->data[$i][0].'" data-toggle="modal" data-target="#EditModal" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>&nbsp';
 
-          $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/kriteria-penilaian/'.$data->data[$i][0].'/'.$id.'/destroy-sub-kriteria').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-times"></i></a>';
+
+          $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/kriteria-penilaian/'.$data->data[$i][0].'/'.$id.'/destroy-sub-kriteria').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-trash"></i></a>';
                     
                 $data->data[$i][] = (string)$output;
         }
+
+        $out->setData($data);
+        return $out;
+    }
+
+    public function detailCostDatatables($id)
+    {
+        $values = $this->sub_kriteria->datatables($id);
+        $out = Datatables::of($values)->make();
+        $data = $out->getData();
+
+        for($i=0; $i < count($data->data); $i++) {            
+          $output = '';
+          $output .= '<a class="btn btn-warning btn-xs btn-edit" data-parent-id="'.$id.'" data-id="'.$data->data[$i][0].'" data-toggle="modal" data-target="#EditModal" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>&nbsp';
+                    
+          $data->data[$i][] = (string)$output;
+        }
+        
         $out->setData($data);
         return $out;
     }

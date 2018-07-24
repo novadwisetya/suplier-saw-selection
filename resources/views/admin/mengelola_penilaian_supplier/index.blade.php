@@ -7,9 +7,7 @@
 @section("htmlheader_title", "Kelola Penilaian Supplier")
 
 @section("headerElems")
-@la_access("Employees", "create")
    <!--  <button class="btn btn-success btn-sm pull-right" id="tambahPenilaian">Tambah Penilaian</button> -->
-@endla_access
 
 @endsection
 
@@ -29,7 +27,7 @@
     <div class="box-header">
         @include('flash::message')
         <div style="text-align: center;">
-            <h3 class="box-title" style="font-weight: bold;">MENU KELOLA PENILAIAN SUPPLIER</h3>
+            
         </div>
         <div style="margin-top: 30px;">
             <div class="form-group row">
@@ -161,14 +159,11 @@
         </div>
     </div>
     <div class="box-footer">
-        <a href="#" class="btn btn-danger">Batal</a>
+        <a href="{{ url(config('laraadmin.adminRoute')) }}" class="btn btn-warning">Menu Utama</a>
         <input class="btn btn-primary pull-right" title="Simpan" type="submit" value="simpan" id="button_submit">
     </div>
     {!! Form::close() !!}
 </div>
-
-@la_access("Employees", "create")
-@endla_access
 
 @endsection
 

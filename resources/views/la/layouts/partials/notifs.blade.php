@@ -10,14 +10,14 @@
 						<!-- Menu Toggle Button -->
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							<!-- The user image in the navbar-->
-							<img src="{{ url('/la-assets/img/user8-128x128.jpg') }}" class="user-image" alt="User Image"/>
+							<img src="{{ url('/la-assets/img/perempuan.png') }}" class="user-image" alt="User Image"/>
 							<!-- hidden-xs hides the username on small devices so only the image appears. -->
 							<span class="hidden-xs">{{ Auth::user()->name }}</span>
 						</a>
 						<ul class="dropdown-menu">
 							<!-- The user image in the menu -->
 							<li class="user-header">
-								<img src="{{ url('/la-assets/img/user8-128x128.jpg') }}" class="img-circle" alt="User Image" />
+								<img src="{{ url('/la-assets/img/perempuan.png') }}" class="img-circle" alt="User Image" />
 								<p>
 									{{ Auth::user()->name }}
 									<?php

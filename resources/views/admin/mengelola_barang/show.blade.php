@@ -2,7 +2,6 @@
     <div class="modal-dialog">
         <div class="modal-content" id="box-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Detail Barang</h4>
             </div>
             <div class="modal-body">
@@ -32,7 +31,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a id="delete-modal-cancel" href="#" class="btn btn-default" data-dismiss="modal">Close</a>&nbsp;
+                <a id="delete-modal-cancel" href="#" class="btn btn-default" data-dismiss="modal">Batal</a>&nbsp;
             </div>
         </div>
     </div>
@@ -42,19 +41,16 @@
         $('[data-tables=true]').on('click', '[data-button=show]', function(e) {
             var id = $(this).data('id');
 
-            var url = "{{route('ajax-get-data-barang', ':id')}}";
+            var url = "{{route('ajax-get-data-barang-show', ':id')}}";
             url = url.replace(':id', id);
 
             $.get(url, function(data, status){
+                console.log(data);
                 $('.value_kode_barang').html(data.data.kode_barang);
                 $('.value_nama_barang').html(data.data.nama_barang);
                 $('.value_kategori_barang').html(data.data.kategori_barang);
                 $('.value_jenis_barang').html(data.data.jenis_barang);
             });
-
-            // $('.name-view').html(name);
-            // $('.periode-view').html(periode);
-            // $('.image-view').html(image);
             $('#view-modal').modal('show');
             e.preventDefault();
         });

@@ -1,15 +1,15 @@
-@extends("la.layouts.app")
+    @extends("la.layouts.app")
 
-@section("contentheader_title", "Kriteria Penilaian")
+@section("contentheader_title", "Sub Kriteria Penilaian")
 @section("contentheader_description", "Detail")
-@section("section", "Kriteria Penilaian")
+@section("section", "Sub Kriteria Penilaian")
 @section("sub_section", "Detail")
-@section("htmlheader_title", "Kriteria Penilaian")
+@section("htmlheader_title", "Sub Kriteria Penilaian")
 
 @section("headerElems")
-@la_access("Employees", "create")
+    @if($data->keterangan != 'cost')
     <button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Tambah Sub Kriteria</button>
-@endla_access
+    @endif
 
 @endsection
 
@@ -27,7 +27,7 @@
 <div class="box box-success">
     <div class="box-header">
         <div style="text-align: center;">
-            <h3 class="box-title" style="font-weight: bold;">Detail Kriteria</h3>
+           
         </div>
         <div style="margin-top: 30px;">
             <div class="form-group row">
@@ -58,26 +58,42 @@
     </div>
     <div class="box-body">
     	@include('flash::message')
-        <table id="table-container" class="table table-hover table-bordered table-condensed table-responsive" data-tables="true">
-            <thead>
-                <tr>
-                    <th class="center-align" width="3%">Id</th>
-                    <th class="center-align" width="43%">Sub Kriteria</th>
-                    <th class="center-align" width="20%">Nilai</th>
-                    <th class="center-align" width="43%">Kriteria Nilai</th>
-                    <th class="center-align" width="9%">Aksi</th>
-                </tr>
-            </thead>
-        </table>
+        @if($data->keterangan != 'cost')
+            <table id="table-container" class="table table-hover table-bordered table-condensed table-responsive" data-tables="true">
+                <thead>
+                    <tr>
+                        <th class="center-align" width="3%">Id</th>
+                        <th class="center-align" width="43%">Sub Kriteria</th>
+                        <th class="center-align" width="20%">Nilai</th>
+                        <th class="center-align" width="43%">Kriteria Nilai</th>
+                        <th class="center-align" width="9%">Aksi</th>
+                    </tr>
+                </thead>
+            </table>
+        @else
+            <table id="table-cost-container" class="table table-hover table-bordered table-condensed table-responsive" data-tables="true">
+                <thead>
+                    <tr>
+                        <th class="center-align" width="3%">Id</th>
+                        <th class="center-align" width="43%">Sub Kriteria</th>
+                        <th class="center-align" width="20%">Nilai</th>
+                        <th class="center-align" width="43%">Kriteria Nilai</th>
+                        <th class="center-align" width="9%">Aksi</th>
+                    </tr>
+                </thead>
+            </table>
+        @endif
+
+    </div>
+    <div class="box-footer">
+        <a href="{{ url(config('laraadmin.adminRoute')) }}" class="btn btn-warning">Menu Utama</a>
     </div>
 </div>
 
-@la_access("Employees", "create")
 <div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Tambah Sub Kriteria</h4>
             </div>
 
@@ -135,8 +151,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                {!! Form::submit( 'Submit', ['class'=>'btn btn-success']) !!}
+                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                {!! Form::submit( 'Simpan', ['class'=>'btn btn-success']) !!}
             </div>
             {!! Form::close() !!}
         </div>
@@ -146,7 +162,6 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Tambah Sub Kriteria</h4>
             </div>
 
@@ -204,8 +219,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                {!! Form::submit( 'Submit', ['class'=>'btn btn-success']) !!}
+                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                {!! Form::submit( 'Simpan', ['class'=>'btn btn-success']) !!}
             </div>
             {!! Form::close() !!}
         </div>
@@ -215,8 +230,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Konfirmasi</h4>
+                <h4 class="modal-title" id="myModalLabel">Konfirmasi Pesan Hapus</h4>
             </div>
             <div class="modal-body">
                 <div class="box-body">
@@ -224,13 +238,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                {!! Form::submit('Delete', ['class'=>'btn btn-success']) !!}
+                <button type="button" class="btn btn-default" data-dismiss="modal">Tidak Setuju</button>
+                {!! Form::submit('Setuju', ['class'=>'btn btn-success']) !!}
             </div>
         </div>
     </div>
 </div>
-@endla_access
 @endsection
 
 @push('styles')
@@ -245,6 +258,16 @@ $(function () {
         processing: true,
         serverSide: true,
         ajax: "{{ route('datatables-list-sub-kriteria-penilaian', $data->id) }}",
+        language: {
+            lengthMenu: "_MENU_",
+            search: "_INPUT_",
+            searchPlaceholder: "Search"
+        }
+    });
+    $("#table-cost-container").DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('datatables-list-sub-kriteria-penilaian-cost', $data->id) }}",
         language: {
             lengthMenu: "_MENU_",
             search: "_INPUT_",

@@ -17,6 +17,7 @@ use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 use Excel;
 use Dwij\Laraadmin\Helpers\LAHelper;
+use PDF; 
 
 class MengelolaSupplierController extends Controller
 {
@@ -192,7 +193,7 @@ class MengelolaSupplierController extends Controller
 
                 $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-supplier/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>&nbsp';
 
-                $output .= '<a data-url="'.url(config('laraadmin.adminRoute') . '/mengelola-supplier/'.$data->data[$i][0].'/destroy').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-times"></i></a>&nbsp';
+                $output .= '<a data-url="'.url(config('laraadmin.adminRoute') . '/mengelola-supplier/'.$data->data[$i][0].'/destroy').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-trash"></i></a>&nbsp';
 
                 $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-supplier/'.$data->data[$i][0].'/penilaian').'" class="btn btn-primary btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>&nbsp';
 
@@ -258,17 +259,19 @@ class MengelolaSupplierController extends Controller
               ->editColumn('harga', function($values) {
                   $sub_kriteria = $this->sub_kriteria->find($values->harga);
                   $nilai = $sub_kriteria->nilai;
-                  return $nilai;
+
+                  return number_format((float)$nilai, 2, '.', '');
               })
               ->editColumn('mutu', function($values) {
                   $sub_kriteria = $this->sub_kriteria->find($values->mutu);
                   $nilai = $sub_kriteria->nilai;
-                  return $nilai;
+
+                  return number_format((float)$nilai, 2, '.', '');
               })
               ->editColumn('layanan', function($values) {
                   $sub_kriteria = $this->sub_kriteria->find($values->layanan);
                   $nilai = $sub_kriteria->nilai;
-                  return $nilai;
+                  return number_format((float)$nilai, 2, '.', '');
               })
               ->editColumn('pembayaran', function($values) {
                   $sub_kriteria = $this->sub_kriteria->find($values->pembayaran);
@@ -278,7 +281,7 @@ class MengelolaSupplierController extends Controller
               ->editColumn('waktu', function($values) {
                   $sub_kriteria = $this->sub_kriteria->find($values->waktu);
                   $nilai = $sub_kriteria->nilai;
-                  return $nilai;
+                  return number_format((float)$nilai, 2, '.', '');
               })
               ->make();
 
@@ -308,9 +311,9 @@ class MengelolaSupplierController extends Controller
                       $dataNilai[] = $value->nilai; 
                   }
 
-                  $return = $nilai * min($dataNilai);
+                  $return = min($dataNilai) / $nilai;
 
-                  return $return;
+                  return number_format((float)$return, 2, '.', '');
               })
               ->editColumn('mutu', function($values) {
                   $sub_kriteria = $this->sub_kriteria->find($values->mutu);
@@ -323,8 +326,8 @@ class MengelolaSupplierController extends Controller
                       $dataNilai[] = $value->nilai; 
                   }
 
-                  $return = $nilai * max($dataNilai);
-                  return $return;
+                  $return = $nilai / max($dataNilai);
+                  return number_format((float)$return, 2, '.', '');
               })
               ->editColumn('layanan', function($values) {
                   $sub_kriteria = $this->sub_kriteria->find($values->layanan);
@@ -338,8 +341,8 @@ class MengelolaSupplierController extends Controller
                       $dataNilai[] = $value->nilai; 
                   }
 
-                  $return = $nilai * max($dataNilai);
-                  return $return;
+                  $return = $nilai / max($dataNilai);
+                  return number_format((float)$return, 2, '.', '');
               })
               ->editColumn('pembayaran', function($values) {
                   $sub_kriteria = $this->sub_kriteria->find($values->pembayaran);
@@ -353,8 +356,8 @@ class MengelolaSupplierController extends Controller
                       $dataNilai[] = $value->nilai; 
                   }
 
-                  $return = $nilai * max($dataNilai);
-                  return $return;
+                  $return = $nilai / max($dataNilai);
+                  return number_format((float)$return, 2, '.', '');
 
               })
               ->editColumn('waktu', function($values) {
@@ -368,8 +371,8 @@ class MengelolaSupplierController extends Controller
                       $dataNilai[] = $value->nilai; 
                   }
 
-                  $return = $nilai * max($dataNilai);
-                  return $return;
+                  $return = $nilai / max($dataNilai);
+                  return number_format((float)$return, 2, '.', '');
               })
               ->make();
         $data = $out->getData();
@@ -396,6 +399,15 @@ class MengelolaSupplierController extends Controller
     public function import()
     {
         return view('admin.'.$this->views.'.import');
+    }
+
+    public function print()
+    {
+        $items = DB::table("suppliers")->get();
+        view()->share('suppliers',$items);
+
+        $pdf = PDF::loadView('admin.'.$this->views.'.pdfview');
+        return $pdf->download('list_supplier.pdf');
     }
 
     public function storeImport(Request $request)

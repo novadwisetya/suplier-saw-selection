@@ -2,7 +2,6 @@
     <div class="modal-dialog">
         <div class="modal-content" id="box-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Detail Supplier</h4>
             </div>
             <div class="modal-body">
@@ -39,7 +38,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a id="delete-modal-cancel" href="#" class="btn btn-default" data-dismiss="modal">Close</a>&nbsp;
+                <a id="delete-modal-cancel" href="#" class="btn btn-default" data-dismiss="modal">Batal</a>&nbsp;
             </div>
         </div>
     </div>

@@ -1,26 +1,106 @@
 @extends('la.layouts.app')
 
-@section('htmlheader_title') Dashboard @endsection
-@section('contentheader_title') Dashboard @endsection
-@section('contentheader_description') Organisation Overview @endsection
+@section('htmlheader_title') Menu Utama @endsection
+@section('contentheader_title') Menu Utama @endsection
+@section('contentheader_description')@endsection
 
 @section('main-content')
-<!-- Main content -->
         <section class="content">
-          <!-- Small boxes (Stat box) -->
+          @if(Auth::user()->role == 'bagian_pembelian')
           <div class="row">
-            <div class="col-lg-12 col-xs-6">
-              <!-- small box -->
-<!--               <div class="small-box bg-aqua">
-                <div class="inner">
-                  <h2>Penjelasan singkat</h2>
-                  <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
+            <div class="col-lg-6">
+              <div class="container col-lg-8 col-lg-offset-4">
+                <div class="panel panel-default">
+                  <div class="panel-body" style="height: 180px">
+                    <a href="{{route('admin-index-mengelola-supplier')}}">
+                        <img class="col-xs-8 col-md-offset-2" src="{{ url('/la-assets/img/tasks.png') }}">
+                    </a>
+                  </div>
+                  <div class="panel-footer text-center dashboard-footer">
+                      <a href="{{route('admin-index-mengelola-supplier')}}">Kelola Data Supplier</a> 
+                  </div>
                 </div>
               </div>
- -->            </div><!-- ./col -->
-          </div><!-- /.row -->
-
-        </section><!-- /.content -->
+            </div>
+            <div class="col-lg-6">
+              <div class="container col-lg-8">
+                <div class="panel panel-default">
+                  <div class="panel-body" style="height: 180px">
+                    <a href="{{route('admin-index-mengelola-barang')}}">
+                        <img class="col-xs-8 col-md-offset-2" src="{{ url('/la-assets/img/cubes.png') }}">
+                    </a>
+                  </div>
+                  <div class="panel-footer text-center dashboard-footer">
+                      <a href="{{route('admin-index-mengelola-barang')}}">Kelola Data Barang</a> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="container col-lg-8 col-lg-offset-4">
+                <div class="panel panel-default">
+                  <div class="panel-body" style="height: 180px">
+                    <a href="{{route('admin-index-mengelola-penilaian-supplier')}}">
+                        <img class="col-xs-8 col-md-offset-2" src="{{ url('/la-assets/img/square.png') }}">
+                    </a>
+                  </div>
+                  <div class="panel-footer text-center dashboard-footer">
+                      <a href="{{route('admin-index-mengelola-penilaian-supplier')}}">Kelola Penilaian Supplier</a> 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="container col-lg-8">
+                <div class="panel panel-default">
+                  <div class="panel-body" style="height: 180px">
+                    <a href="{{route('admin-index-laporan-perangkingan')}}">
+                        <img class="col-xs-8 col-md-offset-2" src="{{ url('/la-assets/img/chart.png') }}">
+                    </a>
+                  </div>
+                  <div class="panel-footer text-center dashboard-footer">
+                      <a href="{{route('admin-index-laporan-perangkingan')}}">Laporan Perangkingan</a> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          @endif
+          @if(Auth::user()->role == 'manager')
+                        <div class="row">
+            <div class="col-lg-6">
+              <div class="container col-lg-8 col-lg-offset-4">
+                <div class="panel panel-default">
+                  <div class="panel-body" style="height: 180px">
+                    <a href="{{route('admin-index-mengelola-penilaian-supplier')}}">
+                        <img class="col-xs-8 col-md-offset-2" src="{{ url('/la-assets/img/square.png') }}">
+                    </a>
+                  </div>
+                  <div class="panel-footer text-center dashboard-footer">
+                      <a href="{{route('admin-index-mengelola-penilaian-supplier')}}">Kelola Penilaian Supplier</a> 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="container col-lg-8">
+                <div class="panel panel-default">
+                  <div class="panel-body" style="height: 180px">
+                    <a href="{{route('admin-index-laporan-perangkingan')}}">
+                        <img class="col-xs-8 col-md-offset-2" src="{{ url('/la-assets/img/chart.png') }}">
+                    </a>
+                  </div>
+                  <div class="panel-footer text-center dashboard-footer">
+                      <a href="{{route('admin-index-laporan-perangkingan')}}">Laporan Perangkingan</a> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          @endif
+        </section>
 @endsection
 
 @push('styles')

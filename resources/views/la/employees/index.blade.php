@@ -1,15 +1,15 @@
 @extends("la.layouts.app")
 
-@section("contentheader_title", "Employees")
-@section("contentheader_description", "employees listing")
-@section("section", "Employees")
-@section("sub_section", "Listing")
-@section("htmlheader_title", "Employees Listing")
+@section("contentheader_title", "Pengguna")
+@section("contentheader_description", "")
+@section("section", "Pengguna")
+@section("sub_section", "")
+@section("htmlheader_title", "Daftar Pengguna")
 
 @section("headerElems")
-@la_access("Employees", "create")
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add Employee</button>
-@endla_access
+
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Tambah Pengguna</button>
+
 @endsection
 
 @section("main-content")
@@ -30,12 +30,11 @@
 		<table id="example1" class="table table-bordered">
 		<thead>
 		<tr class="success">
-			@foreach( $listing_cols as $col )
-			<th>{{ $module->fields[$col]['label'] or ucfirst($col) }}</th>
-			@endforeach
-			@if($show_actions)
-			<th>Actions</th>
-			@endif
+            <th width="4%" class="center-align">Id</th>
+            <th class="center-align" width="20%">Nama</th>
+            <th class="center-align" width="21%">Alamat</th>
+            <th class="center-align" width="26%">Email</th>
+            <th class="center-align" width="9%">Aksi</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -45,36 +44,137 @@
 	</div>
 </div>
 
-@la_access("Employees", "create")
+
 <div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Add Employee</h4>
+				<h4 class="modal-title" id="myModalLabel">Tambah Pengguna</h4>
 			</div>
 			{!! Form::open(['action' => 'LA\EmployeesController@store', 'id' => 'employee-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
-                    @la_form($module)
-					
-					{{--
-					@la_input($module, 'name')
-					@la_input($module, 'designation')
-					@la_input($module, 'gender')
-					@la_input($module, 'mobile')
-					@la_input($module, 'mobile2')
-					@la_input($module, 'email')
-					@la_input($module, 'dept')
-					@la_input($module, 'city')
-					@la_input($module, 'address')
-					@la_input($module, 'about')
-					@la_input($module, 'date_birth')
-					@la_input($module, 'date_hire')
-					@la_input($module, 'date_left')
-					@la_input($module, 'salary_cur')
-					--}}
+              <div class="box-body">
+                    <div class="form-group">
+                    	<label for="name">Nama* :</label>
+                    		<input class="form-control" placeholder="Enter Name" data-rule-minlength="5" data-rule-maxlength="250" required="1" name="name" type="text" value="" aria-required="true">
+                    </div>
+                    <div class="form-group" style="display: none">
+                    	<label for="designation">Designation* :</label>
+                    	<input class="form-control" placeholder="Enter Designation" data-rule-maxlength="50" required="1" name="designation" type="text" value="abaadsfasdfa" aria-required="true">
+                    </div>
+                    <div class="form-group">
+                    	<label for="gender">Jenis Kelamin* : </label>
+                    	<br>
+                    	<div class="radio">
+	                    	<label>
+	                    		<input checked="checked" name="gender" type="radio" value="Male">
+	                    		Laki-laki 
+	                    	</label>
+	                    	<label>
+	                    		<input name="gender" type="radio" value="Female"> Perempuan </label>
+                   		</div>
+                   	</div>
+                   	<div class="form-group">
+                   		<label for="mobile">Telp* :</label>
+                   			<input class="form-control" placeholder="Enter Mobile" data-rule-minlength="10" data-rule-maxlength="20" required="1" name="mobile" type="text" value="" aria-required="true">
+                   	</div>
+                   	<div class="form-group" style="display: none">
+                   		<label for="mobile2">Alternative Mobile :</label>
+                   		<input class="form-control" placeholder="Enter Alternative Mobile" data-rule-minlength="10" data-rule-maxlength="20" name="mobile2" type="text" value="">
+                   	</div>
+                   	<div class="form-group">
+                   		<input type="hidden" name="_token_21" value="BJD4yarQDMzXtubfBBqiuWYS3kTuGiTFOMiNp2Zz">
+                   			<label for="email">Email* :</label>
+                   			<input class="form-control" placeholder="Enter Email" data-rule-minlength="5" data-rule-maxlength="250" data-rule-unique="true" field_id="21" adminroute="admin" row_id="0" required="1" data-rule-email="true" name="email" type="email" value="" aria-required="true">
+                   	</div>
+                   	<div class="form-group" style="display: none;">
+                   		<label for="dept">Department* :</label>
+                   		<select class="form-control select2-hidden-accessible" required="1" data-placeholder="Enter Department" rel="select2" name="dept" tabindex="-1" aria-hidden="true" aria-required="true">
+                   			<option value="1" selected>Administration</option>
+                   		</select>
+                   			<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100px;">
+                   			<span class="selection">
+                   			<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-dept-rr-container">
+                   			<span class="select2-selection__rendered" id="select2-dept-rr-container" title="Administration">Administration</span>
+                   			<span class="select2-selection__arrow" role="presentation">
+                   			<b role="presentation"></b>
+                   			</span>
+                   			</span>
+                   			</span>
+                   			<span class="dropdown-wrapper" aria-hidden="true">
+                   				
+                   			</span>
+                   			</span>
+                   	</div>
+                   	<div class="form-group">
+                   		<label for="city">Kota :</label>
+                   		<input class="form-control" placeholder="Enter City" data-rule-maxlength="50" name="city" type="text" value="">
+                   	</div>
+                   	<div class="form-group">
+                   		<label for="address">Alamat :</label>
+                   		<textarea class="form-control" placeholder="Enter Address" data-rule-maxlength="1000" cols="30" rows="3" name="address">
+                   			
+                   		</textarea>
+                   	</div>
+                   	<div class="form-group" style="display: none">
+                   		<label for="about">About :</label>
+                   		<input class="form-control" placeholder="Enter About" name="about" type="text" value="">
+                   	</div>
+                   	<div class="form-group" style="display: none;">
+                   		<label for="date_birth">Date of Birth :</label>
+                   		<div class="input-group date">
+                   			<input class="form-control" placeholder="Enter Date of Birth" name="date_birth" type="text" value="01/01/1990">
+                   		<span class="input-group-addon">
+                   		<span class="fa fa-calendar"></span>
+                   		</span>
+                   		</div>
+                   	</div>
+                   	<div class="form-group" style="display: none">
+                   		<label for="date_hire">Hiring Date :</label>
+                   		<div class="input-group date">
+                   		<input class="form-control" placeholder="Enter Hiring Date" name="date_hire" type="text" value="01/01/1970">
+                   		<span class="input-group-addon">
+                   		<span class="fa fa-calendar">
+                   			
+                   		</span>
+                   		</span>
+                   	</div>
+                   	</div> 
+                   	<div class="form-group" style="display: none">
+                   		<label for="date_left">Resignation Date :</label>
+                   		<div class="input-group date">
+                   			<input class="form-control" placeholder="Enter Resignation Date" name="date_left" type="text" value="01/01/1990">
+                   			<span class="input-group-addon">
+                   			<span class="fa fa-calendar">
+                   				
+                   			</span>
+                   			</span>
+                   		</div>
+                   	</div>
+                   	<div class="form-group" style="display: none">
+                   		<label for="salary_cur">Current Salary :</label>
+                   		<input class="form-control" placeholder="Enter Current Salary" name="salary_cur" type="number" value="0.0">
+                   	</div>					
+					<div class="form-group" style="display: none;">
+						<label for="role">Role* :</label>
+						<select class="form-control select2-hidden-accessible" required="1" data-placeholder="Select Role" rel="select2" name="role" tabindex="-1" aria-hidden="true" aria-required="true">																											</select>
+						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100px;">
+						<span class="selection">
+						<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-role-10-container"><span class="select2-selection__rendered" id="select2-role-10-container" title="BAGIAN_PEMBELIAN">BAGIAN_PEMBELIAN</span>
+						<span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span>
+						</span>
+						<span class="dropdown-wrapper" aria-hidden="true"></span></span>
+					</div>
 					<div class="form-group">
+                   		<label for="dept">Bagian* :</label>
+                   		<select class="form-control select2-hidden-accessible" required="1" data-placeholder="Enter Department" rel="select2" name="bagian" tabindex="-1" aria-hidden="true" aria-required="true">
+                   			<option value="manager" selected>Manager</option>
+                   			<option value="bagian_pembelian" selected>Bagian Pembelian</option>
+                   		</select>
+                   	</div>
+				</div>
+					<div class="form-group" style="display: none">
 						<label for="role">Role* :</label>
 						<select class="form-control" required="1" data-placeholder="Select Role" rel="select2" name="role">
 							<?php $roles = App\Role::all(); ?>
@@ -88,14 +188,14 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				{!! Form::submit( 'Submit', ['class'=>'btn btn-success']) !!}
+				<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+				{!! Form::submit( 'Simpan', ['class'=>'btn btn-success']) !!}
 			</div>
 			{!! Form::close() !!}
 		</div>
 	</div>
 </div>
-@endla_access
+
 
 @endsection
 

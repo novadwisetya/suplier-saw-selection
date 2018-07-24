@@ -5,60 +5,48 @@
 @endsection
 
 @section('content')
-<body class="hold-transition login-page">
-    <div class="login-box">
-        <div class="login-logo">
-            <a href="#"><img src="https://image4.owler.com/logo/lpkia_owler_20160229_214110_large.png"></a>
+<body style="overflow-y: hidden;">
+    <div class="row">
+        <div class="col-lg-7" style="height:900px;background-image: url('{{ url('/la-assets/img/bg-login-blue.jpg') }}');">
+
+        </div> 
+        <div class="col-lg-5" style="height:900px;background-color: white;">
+                <div class="login-box" style="margin-top: 20px">
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <strong>Gagal! </strong> Email atau password salah.<br><br>
+                    </div>
+                @endif
+                <div class="login-box-body">
+                    <div class="login-logo">
+                        <a href="#"><img src="{{ url('/la-assets/img/logo_perusahaan.jpg') }}" style="height: 100px;"></a>
+                    </div>
+
+                    <p style="text-align: center;margin-bottom: 20px;margin-top: 20px;display: block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 30px;color: #4b2354;line-height: 1.2;text-align: left;">
+                        <b>Selamat Datang</b></br>
+                    </p>
+                    <p style="margin-bottom: 40px;text-align: center;display: block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 18px;color: #4b2354;line-height: 1.2;text-align: left;">
+                        Silakan masukan email dan password untuk masuk!
+                    </p>
+                    <form action="{{ url('/login') }}" method="post">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <div class="form-group has-feedback">
+                            <input type="email" class="form-control" placeholder="Email" name="email" style="border-radius: 20px" />
+                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <input type="password" class="form-control" placeholder="Password" name="password" style="border-radius: 20px" />
+                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button type="submit" class="btn btn-primary btn-block btn-flat" style="border-radius: 20px;">Masuk</button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
         </div>
-
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    <div class="login-box-body">
-    <p style="text-align: center;margin-bottom: 40px;margin-top: 20px;">
-        <b>SELAMAT DATANG!</b></br>
-        SILAKAN MASUKAN USERNAME DAN PASSWORD
-    </p>
-    <form action="{{ url('/login') }}" method="post">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <div class="form-group has-feedback">
-            <input type="email" class="form-control" placeholder="Email" name="email"/>
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-        </div>
-        <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Password" name="password"/>
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-        </div>
-        <div class="row">
-            <div class="col-xs-8">
-                <div class="checkbox icheck">
-                    <label>
-                        <!-- <input type="checkbox" name="remember"> Remember Me -->
-                    </label>
-                </div>
-            </div><!-- /.col -->
-            <div class="col-xs-4">
-                <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-            </div><!-- /.col -->
-        </div>
-    </form>
-
-    @include('auth.partials.social_login')
-
-    <!-- <a href="{{ url('/password/reset') }}">I forgot my password</a><br> -->
-    <!--<a href="{{ url('/register') }}" class="text-center">Register a new membership</a>-->
-
-</div><!-- /.login-box-body -->
-
-</div><!-- /.login-box -->
-
+    </div>
     @include('la.layouts.partials.scripts_auth')
 
     <script>

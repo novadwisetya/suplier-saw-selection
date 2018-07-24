@@ -7,10 +7,9 @@
 @section("htmlheader_title", "Hasil Penilaian Supplier")
 
 @section("headerElems")
-@la_access("Employees", "create")
-   <!--  <button class="btn btn-success btn-sm pull-right" id="tambahPenilaian">Tambah Penilaian</button> -->
-@endla_access
-
+    <a id="btn-cetak" style="text-align:center;" data-id="6" data-button="show" class="btn btn-warning btn-sm">
+        <i class="fa fa-print">&nbsp;Cetak Penilaian Supplier</i>
+    </a>
 @endsection
 
 @section("main-content")
@@ -25,6 +24,7 @@
     </div>
 @endif
 
+<div class="content_penilaian">
 <div class="box box-success">
     <div class="box-header">
         <div style="text-align: center;">
@@ -38,6 +38,7 @@
             <thead>
                 <tr>
                     <th class="center-align" width="200px" rowspan="2">Nama Barang</th>
+                    <th class="center-align" width="100px" rowspan="2">Tanggal</th>
                     <th class="center-align" width="100px" rowspan="1" colspan="5">Kriteria</th>
                 </tr>
                 <tr>
@@ -65,6 +66,7 @@
             <thead>
                 <tr>
                     <th class="center-align" width="200px" rowspan="2">Nama Barang</th>
+                    <th class="center-align" width="100px" rowspan="2">Tanggal</th>
                     <th class="center-align" width="100px" rowspan="1" colspan="5">Kriteria</th>
                 </tr>
                 <tr>
@@ -92,6 +94,7 @@
             <thead>
                 <tr>
                     <th class="center-align" width="200px" rowspan="2">Nama Barang</th>
+                    <th class="center-align" width="100px" rowspan="2">Tanggal</th>
                     <th class="center-align" width="100px" rowspan="1" colspan="5">Kriteria</th>
                 </tr>
                 <tr>
@@ -106,22 +109,27 @@
         </div>
     </div>
 </div>
-
-
-@la_access("Employees", "create")
-@endla_access
+</div>
+<div class="box-footer" style="margin-top: 50px;">
+        <a href="{{ url(config('laraadmin.adminRoute')) }}" class="btn btn-warning">Menu Utama</a>
+    </div>
 @endsection
 
 @push('styles')
     <link rel="stylesheet" type="text/css" href="{{asset('la-assets/plugins/datatables/datatables.min.css')}}"/>
+    <style type="text/css">
+        .content_penilaian {
+            background-color: white !important;
+        }
+    </style>
 @endpush
 
 @push('scripts')
 <script src="{{ asset('la-assets/plugins/datatables/datatables.min.js') }}"></script>
+<script src="{{ asset('la-assets/js/html2canvas.js') }}"></script>
+<script src="{{ asset('la-assets/js/jspdf.debug.js') }}"></script>
 <script>
 $(function () {
-
-
     $("#table-matrix-keputusan").DataTable({
         processing: true,
         serverSide: true,
@@ -166,6 +174,13 @@ $(function () {
         e.preventDefault();
         $('#AddModal').modal('show');
     })
+
+    $('#btn-cetak').click(function () {   
+         var pdf = new jsPDF('p', 'pt', 'letter');
+         pdf.addHTML($('.content_penilaian')[0], function () {
+             pdf.save('Penilaian_supplier.pdf');
+         });
+    });
 });                 
 </script>
 @endpush

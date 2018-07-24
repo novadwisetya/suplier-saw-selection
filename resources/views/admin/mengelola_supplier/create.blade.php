@@ -1,10 +1,10 @@
 @extends("la.layouts.app")
 
-@section("contentheader_title", "Kelola Supplier")
+@section("contentheader_title", "Kelola Data Supplier")
 @section("contentheader_description", "Tambah")
-@section("section", "Kelola Supplier")
+@section("section", "Kelola Data Supplier")
 @section("sub_section", "Tambah")
-@section("htmlheader_title", "Kelola Supplier")
+@section("htmlheader_title", "Kelola Data Supplier")
 
 @section("headerElems")
 
@@ -16,7 +16,7 @@
         <div class="box box-success">
             <div class="box-header">
                 <div style="text-align: center;">
-                    <h3 class="box-title" style="font-weight: bold;">TAMBAH SUPPLIER</h3>
+                    <h3 class="box-title" style="font-weight: bold;">TAMBAH DATA SUPPLIER</h3>
                 </div>
             </div>
             <legend></legend>
@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div class="box-footer">
-                    <a href="#" class="btn btn-danger">Cancel</a>
+                    <a href="{{route('admin-index-mengelola-penilaian-supplier')}}" class="btn btn-danger">Batal</a>
                     <input class="btn btn-primary pull-right" title="Simpan" type="submit" value="simpan" id="button_submit">
                 </div>
             {!! Form::close() !!}

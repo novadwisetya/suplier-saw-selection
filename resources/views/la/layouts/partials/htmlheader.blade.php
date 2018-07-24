@@ -40,7 +40,6 @@
             border-left: none;
         }
     </style>
-    
     @stack('styles')
     
 </head>

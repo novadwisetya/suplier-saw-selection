@@ -29,7 +29,7 @@ class EmployeesController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'name';
-	public $listing_cols = ['id', 'name', 'designation', 'mobile', 'email', 'dept'];
+	public $listing_cols = ['id', 'name', 'mobile', 'address', 'email'];
 	
 	public function __construct() {
 		
@@ -93,7 +93,7 @@ class EmployeesController extends Controller
 			}
 			
 			// generate password
-			$password = LAHelper::gen_password();
+			$password = 12345678;
 			
 			// Create Employee
 			$employee_id = Module::insert("Employees", $request);
@@ -104,6 +104,7 @@ class EmployeesController extends Controller
 				'password' => bcrypt($password),
 				'context_id' => $employee_id,
 				'type' => "Employee",
+				'role' => $request->bagian
 			]);
 	
 			// update user role
@@ -245,14 +246,10 @@ class EmployeesController extends Controller
 	 */
 	public function destroy($id)
 	{
-		if(Module::hasAccess("Employees", "delete")) {
 			Employee::find($id)->delete();
 			
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.employees.index');
-		} else {
-			return redirect(config('laraadmin.adminRoute')."/");
-		}
 	}
 	
 	/**
@@ -262,7 +259,7 @@ class EmployeesController extends Controller
 	 */
 	public function dtajax()
 	{
-		$values = DB::table('employees')->select($this->listing_cols)->whereNull('deleted_at');
+		$values = DB::table('employees')->select(['id', 'name', 'address', 'email'])->whereNull('deleted_at');
 		$out = Datatables::of($values)->make();
 		$data = $out->getData();
 
@@ -275,24 +272,19 @@ class EmployeesController extends Controller
 					$data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
 				}
 				if($col == $this->view_col) {
-					$data->data[$i][$j] = '<a href="'.url(config('laraadmin.adminRoute') . '/employees/'.$data->data[$i][0]).'">'.$data->data[$i][$j].'</a>';
+					$data->data[$i][$j] = '<a href="#">'.$data->data[$i][$j].'</a>';
 				}
-				// else if($col == "author") {
-				//    $data->data[$i][$j];
-				// }
 			}
 			
 			if($this->show_action) {
 				$output = '';
-				if(Module::hasAccess("Employees", "edit")) {
 					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/employees/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
-				}
-				
-				if(Module::hasAccess("Employees", "delete")) {
+					
+					if($data->data[$i][3] != Auth::user()->email){
 					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.employees.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
-					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';
+					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-trash"></i></button>';
+					}
 					$output .= Form::close();
-				}
 				$data->data[$i][] = (string)$output;
 			}
 		}

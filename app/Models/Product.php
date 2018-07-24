@@ -25,4 +25,9 @@ class Product extends Model
     {
         return static::select('id', 'kode_supplier', 'nama_supplier')->get();
     }
+
+    public function PenilaianSupplier()
+    {
+        return $this->hasMany('App\Models\PenilaianSupplier', 'pruducts_id');
+    }
 }

@@ -7,9 +7,7 @@
 @section("htmlheader_title", "Backups Listing")
 
 @section("headerElems")
-@la_access("Backups", "create")
 	<button class="btn btn-success btn-sm pull-right" id="CreateBackup">Create Backup</button>
-@endla_access
 @endsection
 
 @section("main-content")

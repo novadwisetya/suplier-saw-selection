@@ -7,9 +7,7 @@
 @section("htmlheader_title", "Organizations Listing")
 
 @section("headerElems")
-@la_access("Organizations", "create")
 	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add Organization</button>
-@endla_access
 @endsection
 
 @section("main-content")

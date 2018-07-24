@@ -1,15 +1,13 @@
 @extends("la.layouts.app")
 
-@section("contentheader_title", "Kriteria Penilaian")
+@section("contentheader_title", "Kelola Kriteria Penilaian")
 @section("contentheader_description", "")
-@section("section", "Kriteria Penilaian")
+@section("section", "Kelola Kriteria Penilaian")
 @section("sub_section", "")
-@section("htmlheader_title", "Kriteria Penilaian")
+@section("htmlheader_title", "Kelola Kriteria Penilaian")
 
 @section("headerElems")
-@la_access("Employees", "create")
     <!-- <button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Tambah Kriteria</button> -->
-@endla_access
 
 @endsection
 
@@ -27,7 +25,7 @@
 <div class="box box-success">
     <div class="box-header">
         <div style="text-align: center;">
-            <h3 class="box-title" style="font-weight: bold;">Kriteria Penilaian</h3>
+
         </div>
     </div>
     <div class="box-body">
@@ -46,13 +44,17 @@
             </table>
         </div>
     </div>
+    <div class="box-footer">
+        <a href="{{ url(config('laraadmin.adminRoute')) }}" class="btn btn-warning">Menu Utama</a>
+    </div>
 </div>
-@la_access("Employees", "create")
+
+
+
 <div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Tambah Kriteria</h4>
             </div>
 
@@ -112,7 +114,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
                 {!! Form::submit( 'Submit', ['class'=>'btn btn-success']) !!}
             </div>
             {!! Form::close() !!}
@@ -123,7 +125,6 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Tambah Kriteria</h4>
             </div>
 
@@ -183,14 +184,14 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                {!! Form::submit( 'Submit', ['class'=>'btn btn-success']) !!}
+                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                {!! Form::submit( 'Simpan', ['class'=>'btn btn-success']) !!}
             </div>
             {!! Form::close() !!}
         </div>
     </div>
 </div>
-@endla_access
+
 @endsection
 
 @push('styles')

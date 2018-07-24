@@ -29,27 +29,31 @@ Route::group(['prefix' => 'admin/mengelola-supplier', 'namespace' => 'Admin'], f
     Route::get('import', array('as' => 'admin-import-mengelola-supplier', 'uses' =>'MengelolaSupplierController@import'));
     Route::post('import', array('as' => 'admin-import-tambah-supplier', 'uses' => 'MengelolaSupplierController@storeImport'));
     Route::get('{id}/penilaian', array('as' => 'admin-penilaian-mengelola-supplier', 'uses' =>'MengelolaSupplierController@penilaian'));
+    Route::get('supplier-print-pdf', array('as' => 'supplier-print-pdf', 'uses' =>'MengelolaSupplierController@print'));
 });
 
 Route::group(['prefix' => 'admin/mengelola-barang', 'namespace' => 'Admin'], function () {
     Route::get('index', array('as' => 'admin-index-mengelola-barang', 'uses' => 'MengelolaBarangController@index'));
     Route::get('create', array('as' => 'admin-create-mengelola-barang', 'uses' =>'MengelolaBarangController@create'));
     Route::get('{id}/edit', array('as' => 'admin-edit-mengelola-barang', 'uses' =>'MengelolaBarangController@edit'));
-    Route::get('{id}/ajax-get-data-barang', array('as' => 'ajax-get-data-barang', 'uses' =>'MengelolaBarangController@ajaxGetData'));
+    Route::get('{id}/ajax-get-data-barang-show', array('as' => 'ajax-get-data-barang-show', 'uses' =>'MengelolaBarangController@ajaxGetData'));
     Route::post('{id}/update', array('as' => 'admin-update-mengelola-barang', 'uses' =>'MengelolaBarangController@update'));
     Route::post('store', array('as' => 'admin-store-tambah-barang', 'uses' => 'MengelolaBarangController@store'));  
     Route::get('{id}/destroy', array('as' => 'admin-destroy-mengelola-barang', 'uses' =>'MengelolaBarangController@destroy'));
     Route::get('import', array('as' => 'admin-import-mengelola-barang', 'uses' =>'MengelolaSupplierController@import'));
+    Route::get('product-print-pdf', array('as' => 'product-print-pdf', 'uses' =>'MengelolaBarangController@print'));
+
 });
 
 Route::group(['prefix' => 'admin/kriteria-penilaian', 'namespace' => 'Admin'], function () {
     Route::get('index', array('as' => 'admin-index-kriteria-penilaian', 'uses' => 'KriteriaPenilaianController@index'));
     Route::get('create', array('as' => 'admin-create-kriteria-penilaian', 'uses' =>'KriteriaPenilaianController@create'));
-    Route::get('{id}/ajax-get-data-barang', array('as' => 'ajax-get-data-kriteria-penilaian', 'uses' =>'KriteriaPenilaianController@ajaxGetData'));
+    Route::get('{id}/ajax-get-data-kriteria-penilaian', array('as' => 'ajax-get-data-kriteria-penilaian', 'uses' =>'KriteriaPenilaianController@ajaxGetData'));
     Route::post('{id}/update', array('as' => 'admin-update-kriteria-penilaian', 'uses' =>'KriteriaPenilaianController@update'));
     Route::post('store', array('as' => 'admin-store-tambah-kriteria', 'uses' => 'KriteriaPenilaianController@store'));  
     Route::get('{id}/destroy', array('as' => 'admin-destroy-kriteria-penilaian', 'uses' =>'KriteriaPenilaianController@destroy'));
     Route::get('{id}/ajax-get-data-kriteria', array('as' => 'ajax-get-data-kriteria', 'uses' =>'KriteriaPenilaianController@ajaxGetKriteria'));
+
 
     //sub kriteria
     Route::get('{id}/detail', array('as' => 'admin-detail-kriteria-penilaian', 'uses' =>'KriteriaPenilaianController@detail'));
@@ -68,8 +72,8 @@ Route::group(['prefix' => 'admin/mengelola-penilaian-supplier', 'namespace' => '
 Route::group(['prefix' => 'admin/laporan-perangkingan', 'namespace' => 'Admin'], function () {
     Route::get('index', array('as' => 'admin-index-laporan-perangkingan', 'uses' => 'LaporanPerangkinganController@index'));
     Route::get('penilaian', array('as' => 'admin-index-laporan-penilaian', 'uses' => 'LaporanPerangkinganController@penilaian'));
-    // Route::get('{supplier_id}/ajax-get-data-barang', array('as' => 'ajax-get-data-barang-laporan', 'uses' => 'MengelolaPenilaianSupplierController@ajaxGetDataBarang'));
-    // Route::post('store', array('as' => 'admin-store-penilaian-supplier', 'uses' => 'MengelolaPenilaianSupplierController@store'));  
+    Route::post('cari-laporan-perangkingan', array('as' => 'cari-laporan-perangkingan', 'uses' => 'LaporanPerangkinganController@search'));
+     Route::get('laporan-cetak-pdf', array('as' => 'laporan-cetak-pdf', 'uses' =>'LaporanPerangkinganController@print'));
 });
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
@@ -81,6 +85,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         Route::get('mengelola-barang',array('as' => 'datatables-list-barang', 'uses' => 'MengelolaBarangController@datatables' ));
         Route::get('kriteria-penilaian',array('as' => 'datatables-list-kriteria-penilaian', 'uses' => 'KriteriaPenilaianController@datatables' ));
         Route::get('{id}/sub-kriteria-penilaian',array('as' => 'datatables-list-sub-kriteria-penilaian', 'uses' => 'KriteriaPenilaianController@detailDatatables' ));
+        Route::get('{id}/sub-kriteria-penilaian-cost',array('as' => 'datatables-list-sub-kriteria-penilaian-cost', 'uses' => 'KriteriaPenilaianController@detailCostDatatables' ));
         Route::get('ubah-supplier',array('as' => 'datatables-edit-supplier', 'uses' => 'MengelolaSupplierController@datatables_edit' ));
+        Route::get('laporan-perangkingan',array('as' => 'datatables-laporan-perangkingan', 'uses' => 'LaporanPerangkinganController@laporan_perangkingan' ));
     });
 });
