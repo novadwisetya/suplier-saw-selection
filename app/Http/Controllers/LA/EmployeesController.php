@@ -82,7 +82,6 @@ class EmployeesController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		if(Module::hasAccess("Employees", "create")) {
 		
 			$rules = Module::validateRules("Employees", $request);
 			
@@ -123,10 +122,6 @@ class EmployeesController extends Controller
 			}
 			
 			return redirect()->route(config('laraadmin.adminRoute') . '.employees.index');
-			
-		} else {
-			return redirect(config('laraadmin.adminRoute')."/");
-		}
 	}
 
 	/**
