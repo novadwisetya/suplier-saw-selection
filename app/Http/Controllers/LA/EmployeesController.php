@@ -33,15 +33,6 @@ class EmployeesController extends Controller
 	
 	public function __construct() {
 		
-		// Field Access of Listing Columns
-		if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
-			$this->middleware(function ($request, $next) {
-				$this->listing_cols = ModuleFields::listingColumnAccessScan('Employees', $this->listing_cols);
-				return $next($request);
-			});
-		} else {
-			$this->listing_cols = ModuleFields::listingColumnAccessScan('Employees', $this->listing_cols);
-		}
 	}
 	
 	/**
@@ -52,16 +43,12 @@ class EmployeesController extends Controller
 	public function index()
 	{
 		$module = Module::get('Employees');
-		
-		if(Module::hasAccess($module->id)) {
-			return View('la.employees.index', [
-				'show_actions' => $this->show_action,
-				'listing_cols' => $this->listing_cols,
-				'module' => $module
-			]);
-		} else {
-            return redirect(config('laraadmin.adminRoute')."/");
-        }
+
+		return View('la.employees.index', [
+			'show_actions' => $this->show_action,
+			'listing_cols' => $this->listing_cols,
+			'module' => $module
+		]);
 	}
 
 	/**
@@ -132,7 +119,6 @@ class EmployeesController extends Controller
 	 */
 	public function show($id)
 	{
-		if(Module::hasAccess("Employees", "view")) {
 			
 			$employee = Employee::find($id);
 			if(isset($employee->id)) {
@@ -155,9 +141,6 @@ class EmployeesController extends Controller
 					'record_name' => ucfirst("employee"),
 				]);
 			}
-		} else {
-			return redirect(config('laraadmin.adminRoute')."/");
-		}
 	}
 
 	/**
@@ -168,8 +151,6 @@ class EmployeesController extends Controller
 	 */
 	public function edit($id)
 	{
-		if(Module::hasAccess("Employees", "edit")) {
-			
 			$employee = Employee::find($id);
 			if(isset($employee->id)) {
 				$module = Module::get('Employees');
@@ -190,9 +171,6 @@ class EmployeesController extends Controller
 					'record_name' => ucfirst("employee"),
 				]);
 			}
-		} else {
-			return redirect(config('laraadmin.adminRoute')."/");
-		}
 	}
 
 	/**
@@ -204,7 +182,6 @@ class EmployeesController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		if(Module::hasAccess("Employees", "edit")) {
 			
 			$rules = Module::validateRules("Employees", $request, true);
 			
@@ -227,10 +204,6 @@ class EmployeesController extends Controller
 			$user->attachRole($role);
 			
 			return redirect()->route(config('laraadmin.adminRoute') . '.employees.index');
-			
-		} else {
-			return redirect(config('laraadmin.adminRoute')."/");
-		}
 	}
 
 	/**
