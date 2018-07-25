@@ -22,10 +22,10 @@
                         <a href="#"><img src="{{ url('/la-assets/img/logo_perusahaan.jpg') }}" style="height: 100px;"></a>
                     </div>
 
-                    <p style="text-align: center;margin-bottom: 20px;margin-top: 20px;display: block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 30px;color: #4b2354;line-height: 1.2;text-align: left;">
+                    <p style="text-align: center;margin-bottom: 20px;margin-top: 20px;display: block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 30px;color: #4b2354;line-height: 1.2;text-align: center;">
                         <b>Selamat Datang</b></br>
                     </p>
-                    <p style="margin-bottom: 40px;text-align: center;display: block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 18px;color: #4b2354;line-height: 1.2;text-align: left;">
+                    <p style="margin-bottom: 40px;text-align: center;display: block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 18px;color: #4b2354;line-height: 1.2;text-align: center;">
                         Silakan masukan email dan password untuk masuk!
                     </p>
                     <form action="{{ url('/login') }}" method="post">

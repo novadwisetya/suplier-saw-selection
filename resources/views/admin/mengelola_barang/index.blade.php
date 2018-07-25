@@ -28,6 +28,9 @@
             <h3 class="box-title" style="font-weight: bold;">DAFTAR BARANG</h3>
         </div>
         <div class="pull-right">
+            <a id="import" style="text-align:center;" data-id="6" data-button="show" class="btn btn-success btn-sm">
+                <i class="fa fa-upload">&nbsp;Import Data Barang</i>
+            </a>
             <a href="{{route('product-print-pdf')}}" style="text-align:center;" data-id="6" data-button="show" class="btn btn-warning btn-sm">
                 <i class="fa fa-print">&nbsp;Cetak Data Barang</i>
             </a>
@@ -66,7 +69,43 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Tidak setuju</button>
-                {!! Form::submit('Setuju', ['class'=>'btn btn-success']) !!}
+                <a id="buttonDelete" href="#" class="btn btn-success">Setuju</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ImportModal" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Import Data Barang</h4>
+            </div>
+            <div class="modal-body">
+                {!! Form::open(array('url' => route('admin-import-tambah-barang'),'method'=>'POST','class'=>'form-horizontal','id'=>'form-container', 'files'=>true)) !!}
+                <div class="box-body">
+                @include('flash::message')
+                    <div class="form-group row {{($errors->has('import')? 'has-error' : '')}}">
+                        <label class="col-sm-3 control-label">
+                            Data Barang
+                        </label>
+                        <div class="col-sm-6">
+                            {!! Form::file('import', ['accept' => '.xlsx', 'required']) !!}
+
+                            @if ($errors->has('import'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('import') }}</strong>
+                                </span>
+                            @endif
+                        </div> 
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <input class="btn btn-primary pull-right" title="Import" type="submit" value="Import" id="button_submit">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 5px;">Batal</button>&nbsp;
+
+                </div>
+            {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -97,8 +136,15 @@ $(function () {
 
     $(document).on('click', '.btn-danger', function(e){
         e.preventDefault();
+        var url = $(this).data('url');
+        $('#buttonDelete').attr('href', url)
         $('#AddModal').modal('show');
-    })
+    });
+
+    $(document).on('click', '#import', function(e){
+        e.preventDefault();
+        $('#ImportModal').modal('show');
+    });
 });					
 </script>
 

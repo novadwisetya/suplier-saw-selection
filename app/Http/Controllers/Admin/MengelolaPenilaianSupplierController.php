@@ -139,11 +139,12 @@ class MengelolaPenilaianSupplierController extends Controller
                 $harga = 3;
             }
 
+            $newTanggal = date("Y-m-d", strtotime($request->tanggal));
 
             $this->penilaian_supplier->create([
                 'po_number' => $request->po_number,
                 'suppliers_id' => $request->suppliers_id,
-                'tanggal' => $request->tanggal,
+                'tanggal' => $newTanggal,
                 'products_id' => (int)$value['products_id'],
                 'drum' => (int)$value['drum'],
                 'kg' => (int)$value['kg'],
@@ -158,7 +159,8 @@ class MengelolaPenilaianSupplierController extends Controller
         }
         
         flash()->success('Data berhasil disimpan!');
-        return redirect()->route('admin-index-mengelola-penilaian-supplier');
+
+        return redirect()->route('admin-penilaian-mengelola-supplier', $request->suppliers_id);
     }
 
     /**

@@ -42,6 +42,7 @@ Route::group(['prefix' => 'admin/mengelola-barang', 'namespace' => 'Admin'], fun
     Route::get('{id}/destroy', array('as' => 'admin-destroy-mengelola-barang', 'uses' =>'MengelolaBarangController@destroy'));
     Route::get('import', array('as' => 'admin-import-mengelola-barang', 'uses' =>'MengelolaSupplierController@import'));
     Route::get('product-print-pdf', array('as' => 'product-print-pdf', 'uses' =>'MengelolaBarangController@print'));
+    Route::post('import', array('as' => 'admin-import-tambah-barang', 'uses' => 'MengelolaBarangController@storeImport'));
 
 });
 

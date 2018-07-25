@@ -86,7 +86,7 @@
                    	<div class="form-group">
                    		<input type="hidden" name="_token_21" value="BJD4yarQDMzXtubfBBqiuWYS3kTuGiTFOMiNp2Zz">
                    			<label for="email">Email* :</label>
-                   			<input class="form-control" placeholder="Enter Email" data-rule-minlength="5" data-rule-maxlength="250" data-rule-unique="true" field_id="21" adminroute="admin" row_id="0" required="1" data-rule-email="true" name="email" type="email" value="" aria-required="true">
+                   			<input class="form-control" placeholder="Enter Email" data-rule-minlength="5" data-rule-maxlength="250"p field_id="21" adminroute="admin" row_id="0" required="1" data-rule-email="true" name="email" type="email" value="" aria-required="true">
                    	</div>
                    	<div class="form-group" style="display: none;">
                    		<label for="dept">Department* :</label>

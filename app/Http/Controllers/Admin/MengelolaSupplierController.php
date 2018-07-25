@@ -145,7 +145,7 @@ class MengelolaSupplierController extends Controller
         $data = $this->model->find($id);
 
         if(!empty($data)){
-            $data->update([
+            $saveData = $data->update([
                 'nama_supplier' => $request->nama_supplier,
                 'alamat' => $request->alamat,
                 'phone' => $request->phone,
@@ -171,6 +171,8 @@ class MengelolaSupplierController extends Controller
     public function destroy($id)
     {
         $data = $this->model->find($id)->delete();
+        $barang = $this->products->where('suppliers_id', $id)->delete();
+        $penilaian = $this->penilaian_supplier->where('suppliers_id', $id)->delete();
         
         if(!empty($data)){
             flash()->success('Data berhasil dihapus!');
@@ -400,7 +402,6 @@ class MengelolaSupplierController extends Controller
     {
         return view('admin.'.$this->views.'.import');
     }
-
     public function print()
     {
         $items = DB::table("suppliers")->get();
@@ -412,27 +413,28 @@ class MengelolaSupplierController extends Controller
 
     public function storeImport(Request $request)
     {
-      // if(isset($request->import)){
-      //     $path = $request->import->getRealPath();
+      if(isset($request->import)){
+          $path = $request->import->getRealPath();
 
-      //     $data = Excel::load($path, function($reader) {})->get();
-      //     if(!empty($data) && $data->count()){
-      //       foreach ($data as $key => $value) {
-      //           $insert[] = [
-      //               'kode_supplier' => $value->kode_supplier,
-      //               'nama_supplier' => $value->nama_supplier,
-      //               'alamat' => $value->alamat,
-      //               'phone' => $value->phone,
-      //               'email' => $value->email
+          $data = Excel::load($path, function($reader) {})->get();
+          if(!empty($data) && $data->count()){
+            foreach ($data as $key => $value) {
+                $insert[] = [
+                    'kode_supplier' => $value->kode_supplier,
+                    'nama_supplier' => $value->nama_supplier,
+                    'alamat' => $value->alamat,
+                    'phone' => $value->phone,
+                    'email' => $value->email
 
-      //           ];
-      //       }
-      //       if(!empty($insert)){
-      //         DB::table('suppliers')->insert($insert);
-      //         dd('Insert Record successfully.');
-      //       }
-      //     }
-      // }
+                ];
+            }
+            if(!empty($insert)){
+              DB::table('suppliers')->insert($insert);
+              flash()->success('Data berhasil disimpan!');
+              return view('admin.'.$this->views.'.list');
+            }
+          }
+      }
 
       // if(isset($request->import)){
       //     $path = $request->import->getRealPath();
@@ -454,34 +456,35 @@ class MengelolaSupplierController extends Controller
       //       }
       //     }
       // }
-      if(isset($request->import)){
-          $path = $request->import->getRealPath();
 
-          $data = Excel::load($path, function($reader) {})->get();
-          if(!empty($data) && $data->count()){
-            foreach ($data as $key => $value) {
-                $insert[] = [
-                    'po_number' => $value->po_number,
-                    'suppliers_id' => $value->suppliers_id,
-                    'tanggal' => $value->tanggal,
-                    'products_id' => $value->products_id,
-                    'drum' => $value->drum,
-                    'kg' => $value->kg,
-                    'satuan' => $value->satuan,
-                    'jumlah' => $value->jumlah,
-                    'harga' => $value->harga,
-                    'mutu' => $value->mutu,
-                    'layanan' => $value->layanan,
-                    'pembayaran' => $value->pembayaran,
-                    'waktu' => $value->waktu
-                ];
-            }
-            if(!empty($insert)){
-              DB::table('penilaian_supplier')->insert($insert);
-              dd('Insert Record successfully.');
-            }
-          }
-      }
+      // if(isset($request->import)){
+      //     $path = $request->import->getRealPath();
+
+      //     $data = Excel::load($path, function($reader) {})->get();
+      //     if(!empty($data) && $data->count()){
+      //       foreach ($data as $key => $value) {
+      //           $insert[] = [
+      //               'po_number' => $value->po_number,
+      //               'suppliers_id' => $value->suppliers_id,
+      //               'tanggal' => $value->tanggal,
+      //               'products_id' => $value->products_id,
+      //               'drum' => $value->drum,
+      //               'kg' => $value->kg,
+      //               'satuan' => $value->satuan,
+      //               'jumlah' => $value->jumlah,
+      //               'harga' => $value->harga,
+      //               'mutu' => $value->mutu,
+      //               'layanan' => $value->layanan,
+      //               'pembayaran' => $value->pembayaran,
+      //               'waktu' => $value->waktu
+      //           ];
+      //       }
+      //       if(!empty($insert)){
+      //         DB::table('penilaian_supplier')->insert($insert);
+      //         dd('Insert Record successfully.');
+      //       }
+      //     }
+      // }
 
       return back();
 

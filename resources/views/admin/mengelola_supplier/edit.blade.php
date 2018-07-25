@@ -28,7 +28,7 @@
                             Kode Supplier
                         </label>
                         <div class="col-sm-4">
-                            {!! Form::text('kode_supplier', (old('kode_supplier') ? old('kode_supplier') : $data->kode_supplier), ['id' => 'kode_supplier', 'class' => 'form-control', 'placeholder' => 'Kode Supplier', 'disabled']) !!}
+                            {!! Form::text('kode_supplier', (old('kode_supplier') ? old('kode_supplier') : $data->kode_supplier), ['id' => 'kode_supplier', 'class' => 'form-control', 'placeholder' => 'Kode Supplier']) !!}
 
                             @if ($errors->has('kode_supplier'))
                                 <span class="help-block">

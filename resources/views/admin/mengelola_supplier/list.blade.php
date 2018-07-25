@@ -28,7 +28,10 @@
             <h3 class="box-title" style="font-weight: bold;">DAFTAR SUPPLIER</h3>
         </div>
         <div class="pull-right">
-            <a href="{{route('supplier-print-pdf')}}" stylesupplier-print-pdftext-align:center;" data-id="6" data-button="show" class="btn btn-warning btn-sm">
+            <a id="import" style="text-align:center;" data-id="6" data-button="show" class="btn btn-success btn-sm">
+                <i class="fa fa-upload">&nbsp;Import data supplier</i>
+            </a>
+            <a href="{{route('supplier-print-pdf')}}" style="text-align:center;" data-id="6" data-button="show" class="btn btn-warning btn-sm">
                 <i class="fa fa-print">&nbsp;Cetak data supplier</i>
             </a>
         </div>
@@ -72,6 +75,42 @@
     </div>
 </div>
 
+<div class="modal fade" id="ImportModal" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Import Data Supplier</h4>
+            </div>
+            <div class="modal-body">
+                {!! Form::open(array('url' => route('admin-import-tambah-supplier'),'method'=>'POST','class'=>'form-horizontal','id'=>'form-container', 'files'=>true)) !!}
+                <div class="box-body">
+                @include('flash::message')
+                    <div class="form-group row {{($errors->has('import')? 'has-error' : '')}}">
+                        <label class="col-sm-3 control-label">
+                            Data Supplier
+                        </label>
+                        <div class="col-sm-6">
+                            {!! Form::file('import', ['accept' => '.xlsx', 'required']) !!}
+
+                            @if ($errors->has('import'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('import') }}</strong>
+                                </span>
+                            @endif
+                        </div> 
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <input class="btn btn-primary pull-right" title="Import" type="submit" value="Import" id="button_submit">
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal" style="margin-right: 5px;">Batal</button>&nbsp;
+                    
+                </div>
+            {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 @endsection
@@ -104,6 +143,11 @@ $(function () {
         $('#buttonDelete').attr('href', url)
         $('#AddModal').modal('show');
     })
+
+    $(document).on('click', '#import', function(e){
+        e.preventDefault();
+        $('#ImportModal').modal('show');
+    });
 });					
 </script>
 

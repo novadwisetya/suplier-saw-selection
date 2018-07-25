@@ -66,7 +66,11 @@
                     <span style="font-size:18px;color:red">*</span>
                 </label>
                 <div class="col-sm-4">
-                    {!! Form::date('tanggal', null, ['id' => 'tanggal', 'class' => 'form-control', 'placeholder' => 'Tanggal']) !!}
+                    <div class="input-group date">
+                        <input class="form-control" placeholder="Tanggal" name="tanggal" type="text" value="01/01/2018">
+                        <span class="input-group-addon">
+                        <span class="fa fa-calendar"></span>
+                    </span>
 
                     @if ($errors->has('tanggal'))
                         <span class="help-block">

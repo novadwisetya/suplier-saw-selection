@@ -20,10 +20,6 @@
 								<img src="{{ url('/la-assets/img/perempuan.png') }}" class="img-circle" alt="User Image" />
 								<p>
 									{{ Auth::user()->name }}
-									<?php
-									$datec = Auth::user()['created_at'];
-									?>
-									<small>Member since <?php echo date("M. Y", strtotime($datec)); ?></small>
 								</p>
 							</li>
 							<!-- Menu Body -->
@@ -48,11 +44,8 @@
 							@endrole
 							<!-- Menu Footer-->
 							<li class="user-footer">
-								<div class="pull-left">
-									<a href="{{ url(config('laraadmin.adminRoute') . '/users/') .'/'. Auth::user()->id }}" class="btn btn-default btn-flat">Profile</a>
-								</div>
-								<div class="pull-right">
-									<a href="{{ url('/logout') }}" class="btn btn-default btn-flat">Sign out</a>
+								<div class="text-center">
+									<a href="{{ url('/logout') }}" class="btn btn-default btn-flat">Keluar</a>
 								</div>
 							</li>
 						</ul>

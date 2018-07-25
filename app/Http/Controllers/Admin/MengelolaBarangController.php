@@ -13,6 +13,7 @@ use DB;
 use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
+use Excel;
 
 use PDF;
 
@@ -200,7 +201,7 @@ class MengelolaBarangController extends Controller
 
                 $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-barang/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>&nbsp';
 
-                $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/mengelola-barang/'.$data->data[$i][0].'/destroy').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-trash"></i></a>';
+                $output .= '<a data-url="'.url(config('laraadmin.adminRoute') . '/mengelola-barang/'.$data->data[$i][0].'/destroy').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-trash"></i></a>';
                     
                 $data->data[$i][] = (string)$output;
         }
@@ -243,6 +244,34 @@ class MengelolaBarangController extends Controller
 
         $pdf = PDF::loadView('admin.'.$this->views.'.pdfview');
         return $pdf->download('list_barang.pdf');
+    }
+
+    public function storeImport(Request $request)
+    {
+        if(isset($request->import)){
+            $path = $request->import->getRealPath();
+
+            $data = Excel::load($path, function($reader) {})->get();
+            if(!empty($data) && $data->count()){
+                foreach ($data as $key => $value) {
+                    $supplier = $this->supplier->where('nama_supplier', $value->nama_supplier)->first();
+                    if(!empty($supplier)){
+                        $insert[] = [
+                            'kode_barang' => $value->kode_barang,
+                            'nama_barang' => $value->nama_barang,
+                            'kategori_barang' => $value->kategori_barang,
+                            'jenis_barang' => $value->jenis_barang,
+                            'suppliers_id' => $supplier->id
+                        ];
+                    }
+                }
+                if(!empty($insert)){
+                    DB::table('products')->insert($insert);
+                    flash()->success('Data berhasil disimpan!');
+                    return view('admin.'.$this->views.'.index');
+                }
+            }
+        }
     }
 
 }
