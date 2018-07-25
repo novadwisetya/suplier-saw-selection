@@ -544,7 +544,7 @@ class LaporanPerangkinganController extends Controller
         ]);
     }
 
-    public function print()
+    public function cetakData()
     {   
         
         $pdf = PDF::loadView('admin.'.$this->views.'.pdfview');

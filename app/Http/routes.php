@@ -29,7 +29,7 @@ Route::group(['prefix' => 'admin/mengelola-supplier', 'namespace' => 'Admin'], f
     Route::get('import', array('as' => 'admin-import-mengelola-supplier', 'uses' =>'MengelolaSupplierController@import'));
     Route::post('import', array('as' => 'admin-import-tambah-supplier', 'uses' => 'MengelolaSupplierController@storeImport'));
     Route::get('{id}/penilaian', array('as' => 'admin-penilaian-mengelola-supplier', 'uses' =>'MengelolaSupplierController@penilaian'));
-    Route::get('supplier-print-pdf', array('as' => 'supplier-print-pdf', 'uses' =>'MengelolaSupplierController@print'));
+    Route::get('supplier-print-pdf', array('as' => 'supplier-print-pdf', 'uses' =>'MengelolaSupplierController@cetakData'));
 });
 
 Route::group(['prefix' => 'admin/mengelola-barang', 'namespace' => 'Admin'], function () {
@@ -41,7 +41,7 @@ Route::group(['prefix' => 'admin/mengelola-barang', 'namespace' => 'Admin'], fun
     Route::post('store', array('as' => 'admin-store-tambah-barang', 'uses' => 'MengelolaBarangController@store'));  
     Route::get('{id}/destroy', array('as' => 'admin-destroy-mengelola-barang', 'uses' =>'MengelolaBarangController@destroy'));
     Route::get('import', array('as' => 'admin-import-mengelola-barang', 'uses' =>'MengelolaSupplierController@import'));
-    Route::get('product-print-pdf', array('as' => 'product-print-pdf', 'uses' =>'MengelolaBarangController@print'));
+    Route::get('product-print-pdf', array('as' => 'product-print-pdf', 'uses' =>'MengelolaBarangController@cetakData'));
     Route::post('import', array('as' => 'admin-import-tambah-barang', 'uses' => 'MengelolaBarangController@storeImport'));
 
 });
@@ -74,7 +74,7 @@ Route::group(['prefix' => 'admin/laporan-perangkingan', 'namespace' => 'Admin'],
     Route::get('index', array('as' => 'admin-index-laporan-perangkingan', 'uses' => 'LaporanPerangkinganController@index'));
     Route::get('penilaian', array('as' => 'admin-index-laporan-penilaian', 'uses' => 'LaporanPerangkinganController@penilaian'));
     Route::post('cari-laporan-perangkingan', array('as' => 'cari-laporan-perangkingan', 'uses' => 'LaporanPerangkinganController@search'));
-     Route::get('laporan-cetak-pdf', array('as' => 'laporan-cetak-pdf', 'uses' =>'LaporanPerangkinganController@print'));
+     Route::get('laporan-cetak-pdf', array('as' => 'laporan-cetak-pdf', 'uses' =>'LaporanPerangkinganController@cetakData'));
 });
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {

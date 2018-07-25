@@ -402,7 +402,7 @@ class MengelolaSupplierController extends Controller
     {
         return view('admin.'.$this->views.'.import');
     }
-    public function print()
+    public function cetakData()
     {
         $items = DB::table("suppliers")->get();
         view()->share('suppliers',$items);

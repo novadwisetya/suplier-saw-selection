@@ -230,7 +230,7 @@ class MengelolaBarangController extends Controller
         dd('test');
     }
 
-    public function print()
+    public function cetakData()
     {
         $items = $this->model->all()->toArray();
         foreach ($items as $key => $value) {
