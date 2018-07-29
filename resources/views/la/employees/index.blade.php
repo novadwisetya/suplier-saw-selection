@@ -57,7 +57,7 @@
               <div class="box-body">
                     <div class="form-group">
                     	<label for="name">Nama* :</label>
-                    		<input class="form-control" placeholder="Enter Name" data-rule-minlength="5" data-rule-maxlength="250" required="1" name="name" type="text" value="" aria-required="true">
+                    		<input class="form-control" placeholder="Nama" data-rule-minlength="5" data-rule-maxlength="250" required="1" name="name" type="text" value="" aria-required="true">
                     </div>
                     <div class="form-group" style="display: none">
                     	<label for="designation">Designation* :</label>
@@ -76,8 +76,8 @@
                    		</div>
                    	</div>
                    	<div class="form-group">
-                   		<label for="mobile">Telp* :</label>
-                   			<input class="form-control" placeholder="Enter Mobile" data-rule-minlength="10" data-rule-maxlength="20" required="1" name="mobile" type="text" value="" aria-required="true">
+                   		<label for="mobile">No. Telepon* :</label>
+                   			<input class="form-control" placeholder="No. Telepon" data-rule-minlength="10" data-rule-maxlength="20" required="1" name="mobile" type="text" value="" aria-required="true">
                    	</div>
                    	<div class="form-group" style="display: none">
                    		<label for="mobile2">Alternative Mobile :</label>
@@ -86,7 +86,7 @@
                    	<div class="form-group">
                    		<input type="hidden" name="_token_21" value="BJD4yarQDMzXtubfBBqiuWYS3kTuGiTFOMiNp2Zz">
                    			<label for="email">Email* :</label>
-                   			<input class="form-control" placeholder="Enter Email" data-rule-minlength="5" data-rule-maxlength="250"p field_id="21" adminroute="admin" row_id="0" required="1" data-rule-email="true" name="email" type="email" value="" aria-required="true">
+                   			<input class="form-control" placeholder="Email" data-rule-minlength="5" data-rule-maxlength="250"p field_id="21" adminroute="admin" row_id="0" required="1" data-rule-email="true" name="email" type="email" value="" aria-required="true">
                    	</div>
                    	<div class="form-group" style="display: none;">
                    		<label for="dept">Department* :</label>
@@ -109,7 +109,7 @@
                    	</div>
                    	<div class="form-group">
                    		<label for="city">Kota :</label>
-                   		<input class="form-control" placeholder="Enter City" data-rule-maxlength="50" name="city" type="text" value="">
+                   		<input class="form-control" placeholder="Kota" data-rule-maxlength="50" name="city" type="text" value="">
                    	</div>
                    	<div class="form-group">
                    		<label for="address">Alamat :</label>
@@ -173,6 +173,14 @@
                    			<option value="bagian_pembelian" selected>Bagian Pembelian</option>
                    		</select>
                    	</div>
+                              <div class="form-group">
+              <label for="password">Kata sandi :</label>
+              <input class="form-control" id="password" placeholder="Kata Sandi" data-rule-maxlength="50" name="password" type="password" value="" required>
+          </div>
+          <div class="form-group">
+              <label for="password">Konfirmasi Kata Sandi :</label>
+              <input class="form-control" placeholder="Konfirmasi kata sandi" data-rule-maxlength="50" name="c_password" type="password" value="" required equalTo="#password">
+          </div>
 				</div>
 					<div class="form-group" style="display: none">
 						<label for="role">Role* :</label>

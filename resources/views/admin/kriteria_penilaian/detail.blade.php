@@ -239,7 +239,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Tidak Setuju</button>
-                {!! Form::submit('Setuju', ['class'=>'btn btn-success']) !!}
+                <a id="buttonDelete" href="#" class="btn btn-success">Setuju</a>
             </div>
         </div>
     </div>
@@ -299,7 +299,10 @@ $(function () {
 
     $(document).on('click', '.btn-danger', function(e){
         e.preventDefault();
+        var url = $(this).data('url');
+        $('#buttonDelete').attr('href', url)
         $('#DeleteModal').modal('show');
+
     })
 });                 
 </script>

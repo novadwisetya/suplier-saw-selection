@@ -69,17 +69,17 @@
           </div>
           @endif
           @if(Auth::user()->role == 'manager')
-                        <div class="row">
+          <div class="row">
             <div class="col-lg-6">
               <div class="container col-lg-8 col-lg-offset-4">
                 <div class="panel panel-default">
                   <div class="panel-body" style="height: 180px">
-                    <a href="{{route('admin-index-mengelola-penilaian-supplier')}}">
-                        <img class="col-xs-8 col-md-offset-2" src="{{ url('/la-assets/img/square.png') }}">
+                    <a href="{{route('admin-index-kriteria-penilaian')}}">
+                        <img class="col-xs-8 col-md-offset-2" src="{{ url('/la-assets/img/editProperty.png') }}">
                     </a>
                   </div>
                   <div class="panel-footer text-center dashboard-footer">
-                      <a href="{{route('admin-index-mengelola-penilaian-supplier')}}">Kelola Penilaian Supplier</a> 
+                      <a href="{{route('admin-index-kriteria-penilaian')}}">Kelola Kriteria Penilaian</a> 
                   </div>
                 </div>
               </div>

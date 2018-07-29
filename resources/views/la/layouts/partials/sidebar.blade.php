@@ -8,7 +8,11 @@
         @if (! Auth::guest())
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="{{ url('/la-assets/img/perempuan.png') }}" class="img-circle" alt="User Image" />
+                    @if(Auth::user()->gender == "Female")
+                        <img src="{{ url('/la-assets/img/perempuan.png') }}" class="img-circle" alt="User Image" />
+                    @else
+                        <img src="{{ url('/la-assets/img/laki_laki.png') }}" class="img-circle" alt="User Image" />
+                    @endif
                 </div>
                 <div class="pull-left info">
                     <p>{{ Auth::user()->name }}</p>

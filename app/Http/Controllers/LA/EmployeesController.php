@@ -77,9 +77,10 @@ class EmployeesController extends Controller
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
-			
+
 			// generate password
-			$password = 12345678;
+
+			$password = $request->password;
 			
 			// Create Employee
 			$employee_id = Module::insert("Employees", $request);
@@ -90,7 +91,8 @@ class EmployeesController extends Controller
 				'password' => bcrypt($password),
 				'context_id' => $employee_id,
 				'type' => "Employee",
-				'role' => $request->bagian
+				'role' => $request->bagian,
+				'gender' => $request->gender
 			]);
 	
 			// update user role

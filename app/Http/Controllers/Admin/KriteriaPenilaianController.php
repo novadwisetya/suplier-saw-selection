@@ -215,8 +215,7 @@ class KriteriaPenilaianController extends Controller
           $output = '';
           $output .= '<a class="btn btn-warning btn-xs btn-edit" data-parent-id="'.$id.'" data-id="'.$data->data[$i][0].'" data-toggle="modal" data-target="#EditModal" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>&nbsp';
 
-
-          $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/kriteria-penilaian/'.$data->data[$i][0].'/'.$id.'/destroy-sub-kriteria').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-trash"></i></a>';
+          $output .= '<a data-url="'.url(config('laraadmin.adminRoute') . '/kriteria-penilaian/'.$data->data[$i][0].'/'.$id.'/destroy-sub-kriteria').'" class="btn btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-trash"></i></a>';
                     
                 $data->data[$i][] = (string)$output;
         }
