@@ -47,6 +47,13 @@
                 <li><a href="{{route('admin-index-kriteria-penilaian')}}"><i class='fa fa-pencil-square-o'></i> <span>Kelola Kriteria Penilaian</span></a></li>
                 <li><a href="{{route('admin-index-laporan-perangkingan')}}"><i class='fa fa-line-chart'></i> <span>Laporan Perangkingan</span></a></li>
             @endif
+
+            <li><a href="{{route('admin-index-mengelola-supplier')}}"><i class='fa fa-tasks'></i> <span>Kelola Data Supplier</span></a></li>
+                <li><a href="{{route('admin-index-mengelola-barang')}}"><i class='fa fa-cubes'></i> <span>Kelola Data Barang</span></a></li>
+                <li><a href="{{route('admin-index-mengelola-penilaian-supplier')}}"><i class='fa fa-tasks'></i> <span>Kelola Penilaian Supplier</span>
+                    </a>
+                </li>
+                <li><a href="{{route('admin-index-laporan-perangkingan')}}"><i class='fa fa-line-chart'></i> <span>Laporan Perangkingan</span></a></li>
             <!-- LAMenus -->
             
         </ul><!-- /.sidebar-menu -->

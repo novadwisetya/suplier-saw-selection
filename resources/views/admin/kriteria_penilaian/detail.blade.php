@@ -162,7 +162,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Tambah Sub Kriteria</h4>
+                <h4 class="modal-title" id="myModalLabel">Ubah Sub Kriteria</h4>
             </div>
 
             {!! Form::open(['action' => 'Admin\KriteriaPenilaianController@store_sub_kriteria', 'id' => 'form-sub-kriteria']) !!}

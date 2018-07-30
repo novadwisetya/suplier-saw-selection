@@ -8,12 +8,12 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Kriteria;
 use App\Models\SubKriteria;
+use App\Models\PenilaianSupplier;
 use Datatables;
 use DB;
 use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
-
 use Dwij\Laraadmin\Helpers\LAHelper;
 
 class KriteriaPenilaianController extends Controller
@@ -27,6 +27,7 @@ class KriteriaPenilaianController extends Controller
     {
         $this->model = new Kriteria;
         $this->sub_kriteria = new SubKriteria;
+        $this->penilaian_supplier = new PenilaianSupplier;  
     }
 
     public function index()
@@ -297,6 +298,11 @@ class KriteriaPenilaianController extends Controller
         if(!empty($data)){
             $data->delete();
         }
+
+        $this->penilaian_supplier->where('mutu', $id)->delete();
+        $this->penilaian_supplier->where('layanan', $id)->delete();
+        $this->penilaian_supplier->where('pembayaran', $id)->delete();
+        $this->penilaian_supplier->where('waktu', $id)->delete();
         
         if(!empty($data)){
             flash()->success('Data berhasil dihapus!');
